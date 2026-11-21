@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
 <title>Histórias para Dormir</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
@@ -55,6 +56,66 @@ audio{width:100%;margin-top:14px}
 .lib div{display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:6px}
 .lib span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 details{margin-top:10px}summary{cursor:pointer;color:var(--acc2);font-weight:600;min-height:32px}
+.par{display:flex;gap:8px;align-items:center}.par input[type=range]{flex:1;width:auto!important}.par input.num{width:74px;flex:none;text-align:right;padding:8px 10px}.par .u{color:var(--mute);min-width:2.4em;font-size:14px}
+.som .par{flex-wrap:wrap;gap:4px 8px}.som .par input[type=range]{flex:1 1 100%}.som .par input.num{width:64px}
+.som.wide{grid-column:1/-1}
+/* ===== Layout de app (tela inicial + telas + player fixo), estilo Breu ===== */
+:root{--bg:#000;--panel:#111115;--line:#26262d;--ink:#ececf1;--mute:#90909b;--moon:#e6dfcc;--acc:#e6dfcc;--acc2:#9ab8d6}
+body{background:#000;-webkit-tap-highlight-color:transparent;padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.wrap{padding:0 max(4vw,16px) 24px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.tela{display:none;background:none;border:0;border-radius:0;padding:0;margin:0}
+.tela.on{display:block;animation:entra .28s cubic-bezier(.2,.8,.2,1)}
+#t-home.on{animation:surge .35s ease-out}
+@keyframes entra{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes surge{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.tela.on{animation:none}}
+header{height:190px;margin:0 calc(-1*max(4vw,16px)) 6px;border-radius:0}
+header .t{bottom:16px}
+h1{font-size:34px}
+.topo{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:6px;padding:calc(10px + env(safe-area-inset-top)) 0 10px;margin-bottom:4px;background:rgba(0,0,0,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.topo h2{font-size:24px;margin:0}
+.voltar{width:42px;min-height:42px;padding:0;display:grid;place-items:center;border:0;background:#17171c}
+.card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;margin:10px 0;min-height:0;font-weight:400}
+.card .tx{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.card small{color:var(--mute);font-size:13px}.card b{font-size:17px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.card .tx>span{color:var(--mute);font-size:14px}
+.emo{font-size:26px;line-height:1;width:46px;height:46px;flex:none;display:grid;place-items:center;border-radius:14px;background:#1a1a20}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;min-height:0;font-weight:400}
+.tile .emo{margin-bottom:8px}.tile b{font-size:16px;font-weight:600}.tile>span:last-child{color:var(--mute);font-size:13px;line-height:1.35}
+.tile.linha{flex-direction:row;align-items:center;gap:12px;width:100%;margin-top:16px}.tile.linha .emo{margin:0}.tile.linha b{flex:none}.tile.linha>span:last-child{flex:1;text-align:right}
+.tile:active,.card:active,.chip:active{transform:scale(.98)}
+h3.sec{font:600 15px Figtree,sans-serif;color:var(--mute);margin:18px 0 8px}
+.agora .tg{flex:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.btnlike{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:#1a1a1f;color:var(--ink);font:600 15px Figtree,sans-serif;margin:0;cursor:pointer}
+#importArq:focus-visible+.btnlike,.btnlike:focus-within{outline:2px solid var(--acc2)}
+details.pasta{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 12px;margin:10px 0}
+details.pasta>summary{display:flex;align-items:center;gap:6px;color:var(--ink);font-size:16px;min-height:40px;list-style:none}
+details.pasta>summary::-webkit-details-marker{display:none}
+details.pasta>summary .ce{font-size:22px}
+details.pasta>summary .cnt{margin-left:auto;color:var(--mute);font-weight:500;font-size:14px}
+#lib .item{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding:8px 0}
+#lib .item .it{white-space:normal;font-size:15px}
+#lib .item .row{gap:6px}
+#lib .item select.mover{width:auto;max-width:48%;padding:6px 10px;font-size:14px;border-radius:999px;min-height:34px}
+.chip .ce{margin-right:6px}
+.som .top b{display:flex;align-items:center;gap:6px;line-height:1.2}.som .top b .ce{font-size:22px;flex:none}
+input[type=text],input[type=password],select,textarea{background:#0b0b0e}
+button{background:#1a1a1f}
+button.pri{background:var(--moon);border-color:var(--moon);color:#141414}
+.som{background:#0d0d11}.som.on{background:#11161d;border-color:var(--acc2)}
+.bar{background:#17171c}
+#mini{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;gap:8px;max-width:780px;margin:0 auto;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(18,18,22,.92);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+@media(min-width:800px){#mini{bottom:12px;border:1px solid var(--line);border-radius:18px;padding-bottom:8px}}
+.mbtn{position:relative;width:46px;min-height:46px;padding:0;display:grid;place-items:center;border:0;background:#24242b;flex:none}
+#mPlay{background:var(--moon);color:#141414}
+#mTimer small{position:absolute;right:2px;bottom:1px;font-size:10px;font-weight:700;color:var(--moon)}
+#mTimer.on{color:var(--moon)}
+.mtx{flex:1;display:flex;flex-direction:column;align-items:flex-start;text-align:left;border:0;background:none;padding:0 4px;min-height:46px;justify-content:center;overflow:hidden;font-weight:400}
+.mtx b{font-size:15px;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mtx span{font-size:12px;color:var(--mute)}
+.mbar{display:block;width:100%;height:3px;background:#2c2c33;border-radius:3px;margin-top:5px;overflow:hidden}.mbar i{display:block;height:100%;width:0;background:var(--moon)}
+
 .hidden{display:none!important}
 @media(max-width:600px){.grid2{grid-template-columns:minmax(0,1fr)}header{height:200px}}
 @media(prefers-reduced-motion:reduce){.rain{animation:none!important}}
@@ -63,9 +124,11 @@ details{margin-top:10px}summary{cursor:pointer;color:var(--acc2);font-weight:600
 </style>
 </head>
 <body>
+<div class="wrap">
+<main class="tela on" id="t-home">
 <header>
 <svg viewBox="0 0 800 230" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
-<defs><radialGradient id="g" cx="70%" cy="40%" r="45%"><stop offset="0" stop-color="#2a3a63"/><stop offset="1" stop-color="#0d1424"/></radialGradient>
+<defs><radialGradient id="g" cx="70%" cy="40%" r="45%"><stop offset="0" stop-color="#18213a"/><stop offset="1" stop-color="#000000"/></radialGradient>
 <radialGradient id="m" cx="40%" cy="35%"><stop offset="0" stop-color="#fbf6e8"/><stop offset="1" stop-color="#d6cdb5"/></radialGradient></defs>
 <rect width="800" height="230" fill="url(#g)"/>
 <circle cx="600" cy="92" r="70" fill="#e6dfcc" opacity=".08"/>
@@ -73,49 +136,121 @@ details{margin-top:10px}summary{cursor:pointer;color:var(--acc2);font-weight:600
 <circle cx="586" cy="80" r="7" fill="#c9bfa4" opacity=".35"/><circle cx="612" cy="104" r="5" fill="#c9bfa4" opacity=".4"/>
 <g class="rain" stroke="#7fa8c9" stroke-width="1.2" opacity=".35">
 <path d="M80 -20l-8 30M190 10l-8 30M300 -30l-8 30M420 20l-8 30M520 -10l-8 30M700 0l-8 30M760 40l-8 30M140 70l-8 30M360 80l-8 30M470 110l-8 30M650 140l-8 30M250 130l-8 30"/></g>
-<path d="M0 190 Q120 165 240 182 T480 176 T800 172 V230 H0Z" fill="#0a1020"/>
-<path d="M0 205 Q160 188 330 200 T800 196 V230 H0Z" fill="#070c18"/>
+<path d="M0 190 Q120 165 240 182 T480 176 T800 172 V230 H0Z" fill="#07090f"/>
+<path d="M0 205 Q160 188 330 200 T800 196 V230 H0Z" fill="#000000"/>
 </svg>
-<div class="t"><h1>Histórias para dormir</h1><p>Escreva ou gere uma história, escolha a voz e o som de fundo, e baixe o áudio.</p></div>
+<div class="t"><h1 id="saudacao">Boa noite</h1><p>Histórias para dormir</p></div>
 </header>
-<div class="wrap">
 
-<section id="s1">
-<h2>1. A história</h2>
-<p class="sub">Escreva a sua, carregue um exemplo ou peça para a IA escrever.</p>
-<div class="chips" id="exemplos"></div>
+<button class="card cont" data-ir="ouvir"><span class="emo">📖</span><span class="tx"><small>Continuar</small><b id="hCont">Sem história ainda</b><span id="hContInfo"></span></span></button>
+<button class="card cont hidden" id="hSerie" data-ir="ia"><span class="emo">🎞️</span><span class="tx"><small id="hSerieK">Minissérie</small><b id="hSerieT"></b><span id="hSerieInfo"></span></span></button>
+<div class="tiles">
+<button class="tile" data-ir="ia"><span class="emo">✨</span><b>Nova com IA</b><span>temas, tons, minissérie</span></button>
+<button class="tile" data-ir="historia"><span class="emo">✍️</span><b>Escrever</b><span>ou editar o texto</span></button>
+<button class="tile" data-ir="biblioteca"><span class="emo">📚</span><b>Biblioteca</b><span id="hLib">suas histórias</span></button>
+<button class="tile" data-ir="voz"><span class="emo">🎙️</span><b>Voz</b><span id="hVoz"></span></button>
+<button class="tile" data-ir="sons"><span class="emo">🌧️</span><b>Sons de fundo</b><span id="hSons"></span></button>
+<button class="tile" data-ir="ouvir"><span class="emo">🎧</span><b>Ouvir e baixar</b><span>montar o áudio</span></button>
+</div>
+<h3 class="sec">Sons favoritos</h3>
+<div class="chips" id="hPresets"></div>
+<button class="tile linha" data-ir="ajuda"><span class="emo">💡</span><b>Ajuda e contas</b><span>iPhone, Azure, Apple Música</span></button>
+</main>
+
+
+<section class="tela" id="t-historia">
+<div class="topo"><button class="voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2>História</h2></div>
+<p class="sub">Escreva a sua, cole um texto, importe um arquivo ou edite o que a IA escreveu.</p>
+<div class="row"><label class="btnlike" for="importArq"><span class="ce" aria-hidden="true">📄</span>Importar PDF ou Word</label><input type="file" id="importArq" class="sr" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"></div>
+<p class="note" id="importMsg" aria-live="polite">Aceita PDF com texto, Word (.docx) e .txt. O tamanho é livre: a biblioteca guarda textos longos sem limite prático.</p>
 <label for="titulo">Título</label>
 <input type="text" id="titulo" placeholder="Ex.: Uma noite na biblioteca de Ulpiano">
 <label for="texto">Texto (deixe uma linha em branco entre parágrafos)</label>
 <textarea id="texto" placeholder="Era uma noite calma..."></textarea>
 <p class="note" id="contagem"></p>
-<div class="row" style="margin-top:10px"><button id="salvar">Salvar na biblioteca</button><button id="limpar">Limpar</button></div>
-<details><summary>Minha biblioteca</summary><div class="lib" id="lib"></div></details>
-<details id="ia"><summary>Escrever com IA</summary>
+<details id="fontesBox" class="hidden"><summary>📚 Fontes da pesquisa</summary><div id="fontesTx" class="note" style="white-space:pre-wrap;word-break:break-word"></div></details>
 <div class="grid2">
-<div><label for="iaTema">Tema</label><select id="iaTema"><option>Direito</option><option>Espaço</option><option>História</option><option>Natureza</option><option>Livre</option></select></div>
-<div><label for="iaMin">Duração da narração</label><select id="iaMin"><option value="5">5 min</option><option value="10" selected>10 min</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option></select></div>
+<div><label for="hTipo">Tipo</label><select id="hTipo"><option value="unico">Episódio único</option><option value="mini">Episódio de minissérie</option><option value="temp">Episódio de temporada</option></select></div>
+<div><label for="hPasta">Pasta</label><select id="hPasta"></select></div>
 </div>
+<div class="grid2 hidden" id="hNums"><div id="hTempBox"><label for="hTemp">Temporada</label><input type="text" inputmode="numeric" id="hTemp" value="1"></div><div><label for="hEp">Episódio</label><input type="text" inputmode="numeric" id="hEp" value="1"></div></div>
+<div class="row" style="margin-top:12px"><button class="pri" id="salvar">Salvar na biblioteca</button><button id="salvarNova" class="hidden">Salvar como nova</button><button id="limpar">Limpar</button></div>
+<p class="note" id="hMsg" aria-live="polite"></p>
+</section>
+<section class="tela" id="t-biblioteca">
+<div class="topo"><button class="voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2>Biblioteca</h2></div>
+<p class="sub">Organize em pastas: minisséries, séries com temporadas ou pastas comuns. Toque em “Abrir” para ouvir; use “Pasta” para mover uma história.</p>
+<details id="npBox"><summary>＋ Nova pasta</summary>
+<div class="grid2"><div><label for="npNome">Nome</label><input type="text" id="npNome" placeholder="Mistérios do Egito"></div>
+<div><label for="npTipo">Tipo</label><select id="npTipo"><option value="mini">🎞️ Minissérie</option><option value="temp">📺 Temporadas</option><option value="pasta">📁 Pasta comum</option></select></div></div>
+<div class="row" style="margin-top:8px"><button class="pri" id="npCriar">Criar pasta</button></div></details>
+<div id="lib"></div>
+<h3 class="sec">Exemplos para testar</h3>
+<div class="chips" id="exemplos"></div>
+</section>
+<section class="tela" id="t-ia">
+<div class="topo"><button class="voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2>Nova com IA</h2></div>
+<label id="iaTemasLbl">Temas <span class="note" style="display:inline;margin:0">(toque em quantos quiser; juntos viram uma história inédita)</span></label>
+<div class="chips" id="iaTemas" role="group" aria-labelledby="iaTemasLbl"></div>
 <label for="iaSobre">Sobre o quê?</label>
-<input type="text" id="iaSobre" placeholder="Ex.: a origem do habeas corpus na Inglaterra">
-<label for="iaTom">Tom</label>
-<select id="iaTom"><option>sereno e contemplativo</option><option>documental e tranquilo</option><option>conto com personagens, muito calmo</option></select>
+<input type="text" id="iaSobre" placeholder="Separe com ponto e vírgula. Ex.: Egito; alienígenas">
+<label for="iaDet">Detalhes da história (opcional)</label>
+<textarea id="iaDet" style="min-height:90px" placeholder="Ex.: quero que a história fale de alienígenas ajudando a construir as pirâmides do Egito, contada por um escriba que observa tudo à noite."></textarea>
+<div class="grid2">
+<div><label for="iaBase">Base da história</label><select id="iaBase"><option value="ficcao">Inventada (ficção)</option><option value="fatos">Com fundamento (pesquisa)</option></select></div>
+<div id="iaFonteBox" class="hidden"><label for="iaFonteTipo">Fontes</label><select id="iaFonteTipo"><option value="cient">Artigos científicos e instituições</option><option value="geral">Fontes confiáveis em geral</option></select></div>
+</div>
+<p class="note hidden" id="iaBaseNota"></p>
+<div class="grid2">
+<div><label for="iaTom">Tom</label><select id="iaTom"></select></div>
+<div><label for="iaTipo">Tipo de texto</label><select id="iaTipo"></select></div>
+</div>
+<div class="grid2">
+<div><label for="iaMin">Duração de cada áudio (5 a 120 min)</label><input type="range" id="iaMin" min="5" max="120" step="1" value="10" data-u="min" style="width:100%"></div>
+<div><label for="iaFormato">Formato</label><select id="iaFormato"><option value="unica">História única</option><option value="serie">Minissérie (vários episódios)</option><option value="temp">Temporadas (série longa)</option></select></div>
+</div>
+<p class="note hidden" id="iaLongo">Acima de 40 min, a IA escreve em partes de ~30 min, emendadas num texto só (leva alguns minutos). Para ouvir, prefira “Tocar agora”: um arquivo de 1 a 2 horas fica com 175 a 350 MB, e o Safari do iPhone pode travar ao montar (até ~45 min é tranquilo). Na ElevenLabs, 2 h de texto gastam cerca de 95 mil créditos.</p>
+<div id="iaSerieBox" class="grid2 hidden">
+<div id="iaTempsBox" class="hidden"><label for="iaTemps">Temporadas</label><select id="iaTemps"><option value="2">2 temporadas</option><option value="3">3 temporadas</option><option value="4">4 temporadas</option><option value="5">5 temporadas</option><option value="6">6 temporadas</option></select></div>
+<div><label for="iaEps" id="iaEpsLbl">Número de episódios</label><select id="iaEps"></select></div>
+<div><label for="iaPorDia">Episódios por dia</label><select id="iaPorDia"><option value="1">1 por dia</option><option value="2">2 por dia</option><option value="3">3 por dia</option></select></div>
+<p class="note" id="iaSerieInfo" style="grid-column:1/-1"></p>
+</div>
 <div id="iaKeyBox"><label for="antKey">Chave da API da Anthropic (só na versão hospedada)</label><input type="password" id="antKey" placeholder="sk-ant-..." autocomplete="off"></div>
-<div class="row" style="margin-top:12px"><button class="pri" id="iaBtn">Escrever história</button><span class="note" id="iaMsg"></span></div>
-</details>
+<div class="row" style="margin-top:12px"><button class="pri" id="iaBtn">Escrever história</button><button id="iaParar" class="hidden">Parar</button><button id="iaCont" class="hidden">Continuar a série</button></div>
+<p class="note" id="iaMsg" aria-live="polite"></p>
+<div class="lib hidden" id="iaSerieLista" style="margin-top:8px"></div>
 </section>
 
-<section id="s2">
-<h2>2. A voz</h2>
-<p class="sub">As vozes do iPhone são grátis, mas só tocam ao vivo. As vozes ElevenLabs viram arquivo para baixar.</p>
+<section class="tela" id="t-voz">
+<div class="topo"><button class="voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2>Voz</h2></div>
+<p class="sub">iPhone: grátis, ao vivo (para baixar, use o app Atalhos, em Ouvir). Piper: grátis e sem limite, vira arquivo. Azure: vozes muito naturais, grátis até ~8 h por mês. ElevenLabs: as mais expressivas, mas com poucos créditos grátis.</p>
 <div class="chips" id="motor">
 <button class="chip on" data-m="iphone">Vozes do iPhone</button>
+<button class="chip" data-m="piper">Piper (grátis)</button>
+<button class="chip" data-m="azure">Azure</button>
 <button class="chip" data-m="eleven">ElevenLabs</button>
 </div>
 <div id="boxIphone">
 <label for="vozIph">Voz</label><select id="vozIph"></select>
 <label class="row" style="color:var(--ink)"><input type="checkbox" id="todasLinguas"> Mostrar vozes de outras línguas</label>
 <p class="note">Mais vozes: no iPhone, Ajustes › Acessibilidade › Conteúdo Falado › Vozes › Português (Brasil). Baixe as versões “Aprimorada” ou “Premium”, que soam bem mais naturais.</p>
+</div>
+<div id="boxPiper" class="hidden">
+<label for="vozPiper">Voz</label><select id="vozPiper"><option value="pt_BR-faber-medium">Faber · masculina, mais natural</option><option value="pt_BR-edresson-low">Edresson · masculina, mais simples</option></select>
+<div class="row" style="margin-top:10px"><button id="piperBaixar">Preparar a voz</button></div>
+<p class="note">Não precisa de conta nem de chave. Na primeira vez, a voz é baixada para este navegador (cerca de 63 MB; use o Wi-Fi). Depois funciona até sem internet, sem limite de minutos. A fala é gerada no próprio iPhone, então um texto longo leva alguns minutos.</p>
+<p class="warn hidden" id="piperBloq">Dentro do link do Claude, a página não consegue baixar a voz do Piper. Use a versão hospedada (veja “Ajuda e contas”).</p>
+</div>
+<div id="boxAzure" class="hidden">
+<label for="azKey">Chave do recurso de Fala (Azure)</label>
+<input type="password" id="azKey" placeholder="Cole a Chave 1" autocomplete="off">
+<label for="azReg">Região do recurso</label>
+<select id="azReg"><option value="brazilsouth">Brazil South (Sul do Brasil)</option><option value="eastus">East US</option><option value="eastus2">East US 2</option><option value="westus2">West US 2</option><option value="westeurope">West Europe</option><option value="southcentralus">South Central US</option></select>
+<div class="row" style="margin-top:10px"><button id="azCarregar">Carregar vozes</button></div>
+<label for="vozAz">Voz</label><select id="vozAz"></select>
+<p class="note">O plano grátis (F0) dá 500 mil caracteres por mês, umas 8 horas de narração. Passou disso, a Azure só bloqueia até o mês virar: não cobra nada. Como criar a conta: veja “Ajuda e contas”, na tela inicial.</p>
+<p class="warn hidden" id="azBloq">Dentro do link do Claude, a página não consegue falar com a Azure. Use a versão hospedada (veja “Ajuda e contas”).</p>
 </div>
 <div id="boxEleven" class="hidden">
 <label for="elKey">Chave da API ElevenLabs</label>
@@ -125,47 +260,61 @@ details{margin-top:10px}summary{cursor:pointer;color:var(--acc2);font-weight:600
 <label for="vozElId">…ou cole o ID de uma voz da biblioteca</label><input type="text" id="vozElId" placeholder="ID da voz">
 <div class="grid2">
 <div><label for="elModelo">Modelo</label><select id="elModelo"><option value="eleven_multilingual_v2">Multilingual v2 (recomendado)</option><option value="eleven_v3">v3 (mais expressivo)</option><option value="eleven_turbo_v2_5">Turbo v2.5 (mais barato)</option><option value="eleven_flash_v2_5">Flash v2.5 (mais barato)</option></select></div>
-<div><label for="elEstab">Estabilidade <span class="val" id="elEstabV"></span></label><input type="range" id="elEstab" min="0.2" max="1" step="0.05" value="0.65"></div>
+<div><label for="elEstab">Estabilidade</label><input type="range" id="elEstab" min="0.2" max="1" step="0.01" data-k="100" data-u="%" value="0.65"></div>
 </div>
 <p class="note">Dica: na Voice Library do site da ElevenLabs, filtre por português e adicione vozes de narradores brasileiros à sua conta; depois toque em “Carregar minhas vozes”.</p>
-<p class="warn hidden" id="elBloq">Dentro do link do Claude, a página não consegue falar com a ElevenLabs. Use a versão hospedada (veja “Como usar no iPhone”).</p>
+<p class="warn hidden" id="elBloq">Dentro do link do Claude, a página não consegue falar com a ElevenLabs. Use a versão hospedada (veja “Ajuda e contas”).</p>
 </div>
-<label for="vel">Velocidade da narração <span class="val" id="velV"></span></label>
-<input type="range" id="vel" min="0.5" max="2.5" step="0.05" value="1" style="width:100%">
-<label for="pausa">Pausa entre parágrafos <span class="val" id="pausaV"></span></label>
-<input type="range" id="pausa" min="0" max="6" step="0.5" value="1.5" style="width:100%">
+<label for="vel">Velocidade da narração (×)</label>
+<input type="range" id="vel" min="0.5" max="2.5" step="0.01" data-u="×" value="1" style="width:100%">
+<label for="pausa">Pausa entre parágrafos (segundos)</label>
+<input type="range" id="pausa" min="0" max="10" step="0.1" data-u="s" value="1.5" style="width:100%">
 <div class="row" style="margin-top:12px"><button id="ouvirVoz">Ouvir amostra da voz</button></div>
 <p class="note" id="vozMsg" aria-live="polite"></p>
 <audio id="amostra" controls class="hidden"></audio>
 </section>
 
-<section id="s3">
-<h2>3. Sons de fundo</h2>
+<section class="tela" id="t-sons">
+<div class="topo"><button class="voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2>Sons de fundo</h2></div>
 <p class="sub">Combine quantos quiser e ajuste o volume de cada um. Todos os sons são sintetizados aqui mesmo; você também pode usar uma gravação sua.</p>
 <div class="chips" id="presets"></div>
 <div class="sons" id="sons"></div>
 <div class="som" style="margin-top:10px"><div class="top"><b>Seu próprio som</b><span class="note" id="meuNome" style="margin:0"></span></div>
 <input type="file" id="meuSom" accept="audio/*" style="margin-top:8px;max-width:100%">
-<input type="range" id="meuVol" min="0" max="1" step="0.05" value="0.5" aria-label="Volume do seu som"></div>
+<input type="range" id="meuVol" min="0" max="1" step="0.01" data-k="100" data-u="%" value="0.5" aria-label="Volume do seu som"></div>
 <div class="row" style="margin-top:12px"><button id="ouvirFundo">Ouvir só o fundo</button><button id="pararFundo">Parar</button></div>
 </section>
 
-<section id="s4">
-<h2>4. Montar e ouvir</h2>
+<section class="tela" id="t-ouvir">
+<div class="topo"><button class="voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2>Ouvir e baixar</h2></div>
+<div class="card agora"><span class="emo">📖</span><span class="tx"><b id="agTit"></b><span id="agInfo"></span></span><button class="tg" data-ir="historia">Editar</button></div>
 <div class="grid2">
-<div><label for="lead">Fundo antes da narração <span class="val" id="leadV"></span></label><input type="range" id="lead" min="0" max="60" step="1" value="8" style="width:100%"></div>
-<div><label for="cauda">Fundo depois da história <span class="val" id="caudaV"></span></label><input type="range" id="cauda" min="0" max="60" step="1" value="10" style="width:100%"></div>
-<div><label for="volN">Volume da narração <span class="val" id="volNV"></span></label><input type="range" id="volN" min="0.2" max="1.5" step="0.05" value="1" style="width:100%"></div>
-<div><label for="volF">Volume geral do fundo <span class="val" id="volFV"></span></label><input type="range" id="volF" min="0" max="1.5" step="0.05" value="1" style="width:100%"></div>
+<div><label for="lead">Fundo antes da narração</label><input type="range" id="lead" min="0" max="120" step="1" data-u="s" value="8" style="width:100%"></div>
+<div><label for="cauda">Fundo depois da história</label><input type="range" id="cauda" min="0" max="120" step="1" data-u="min" value="10" style="width:100%"></div>
+<div><label for="volN">Volume da narração</label><input type="range" id="volN" min="0.2" max="1.5" step="0.01" data-k="100" data-u="%" value="1" style="width:100%"></div>
+<div><label for="volF">Volume geral do fundo</label><input type="range" id="volF" min="0" max="1.5" step="0.01" data-k="100" data-u="%" value="1" style="width:100%"></div>
 </div>
 <p class="note">O fundo some devagar nos últimos 2 minutos do áudio.</p>
 <div id="ao_iph">
 <div class="row" style="margin-top:14px"><button class="pri" id="tocarVivo">Tocar agora</button><button id="pararVivo">Parar</button>
 <select id="timer" style="width:auto"><option value="0">Sem timer</option><option value="15">Parar em 15 min</option><option value="30">Parar em 30 min</option><option value="45">Parar em 45 min</option><option value="60">Parar em 60 min</option></select></div>
-<p class="note">Com as vozes do iPhone, mantenha a tela acesa (ou o Safari aberto) até a história acabar: o iOS costuma interromper a fala com a tela bloqueada. O fundo continua.</p>
+<p class="note">“Tocar agora” é o teste: ouça, ajuste e toque de novo. Com as vozes do iPhone, mantenha a tela acesa (ou o Safari aberto) até a história acabar: o iOS costuma interromper a fala com a tela bloqueada. O fundo continua.</p>
+<details id="dlIph" style="margin-top:14px"><summary><b>Baixar como arquivo</b></summary>
+<p class="note">O Safari não deixa gravar as vozes do iPhone. Por isso a narração é feita pelo app <b>Atalhos</b> (já vem no iPhone, grátis), com as mesmas vozes, e esta página junta a narração com o fundo para você baixar.</p>
+<details><summary>Criar o atalho (só uma vez)</summary>
+<p class="note">1. Abra o app Atalhos e toque em <b>+</b>.<br>2. Adicione a ação <b>Obter Área de Transferência</b>.<br>3. Adicione a ação <b>Criar Áudio Falado a partir de Texto</b> (busque por “falado”). Toque na seta dela e escolha a voz e a velocidade.<br>4. Adicione a ação <b>Salvar Arquivo</b>.<br>5. Dê um nome, como “Narrar história”, e toque em OK.</p></details>
+<p class="note" style="margin-top:8px"><b>Passo 1.</b> Copie o texto da história e rode o atalho. Ele salva um arquivo de áudio no app Arquivos.</p>
+<div class="row"><button id="copiarTxt">Copiar texto da história</button><span class="note" id="copiarMsg" style="margin:0"></span></div>
+<p class="note" style="margin-top:8px"><b>Passo 2.</b> Escolha o arquivo que o atalho salvou.</p>
+<input type="file" id="narrArq" accept="audio/*,.m4a,.aiff,.aif,.wav,.mp3" style="max-width:100%"><span class="note" id="narrNome" style="display:block"></span>
+<p class="note" style="margin-top:8px"><b>Passo 3.</b> Gere o arquivo final com o fundo e baixe. Sem narração escolhida, sai só o fundo (com a duração de “Fundo antes” + “Fundo depois”).</p>
+<div class="row"><button class="pri" id="montarIph">Gerar áudio para baixar</button></div>
+<p class="note">A velocidade e a voz do arquivo são as que você escolheu no atalho; o controle de velocidade desta página não se aplica a ele.</p>
+</details>
 </div>
 <div id="ao_el" class="hidden">
-<div class="row" style="margin-top:14px"><button class="pri" id="montar">Gerar áudio</button><span class="note" id="custo"></span></div>
+<div class="row" style="margin-top:14px"><button class="pri" id="previa">Ouvir prévia</button><button id="montar">Gerar áudio completo</button></div>
+<p class="note">A prévia usa só o começo da história (gasta poucos créditos). O áudio completo toca aqui mesmo: você só baixa se quiser, no botão “Baixar”. A narração já gerada é reaproveitada, sem gastar créditos de novo.</p><p class="note" id="custo"></p>
 </div>
 <div class="bar"><i id="prog"></i></div>
 <p class="note" id="status" aria-live="polite"></p>
@@ -174,15 +323,29 @@ details{margin-top:10px}summary{cursor:pointer;color:var(--acc2);font-weight:600
 <audio id="fundoAudio" loop class="hidden"></audio>
 </section>
 
-<section>
-<h2>Como usar no iPhone</h2>
+<section class="tela" id="t-ajuda">
+<div class="topo"><button class="voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2>Ajuda e contas</h2></div>
 <details open><summary>Onde abrir</summary>
 <p class="note">Abra esta página numa aba normal do Safari, sem “Adicionar à Tela de Início”: só na aba comum o som continua tocando com a tela bloqueada.</p></details>
 <details><summary>Levar para o Apple Música</summary>
 <p class="note">O iPhone não deixa importar arquivos direto no app Música. Para isso, baixe o .wav, passe para o computador e adicione no app Apple Music do Windows (Arquivo › Adicionar arquivo à biblioteca). Com a Sincronização da Biblioteca ligada ou pelo app Dispositivos Apple, ele chega ao iPhone. Alternativa sem computador: abra o arquivo baixado pelo app Arquivos ou pelo VLC (grátis), que tocam com a tela bloqueada e permitem ajustar a velocidade.</p></details>
-<details><summary>Chaves de API</summary>
+<details><summary>Contas e chaves</summary>
+<p class="note"><b>Piper:</b> não tem conta nem chave. Escolha “Piper” na tela Voz e toque em “Preparar a voz”.</p>
+<p class="note"><b>Azure (uma vez, uns 15 minutos):</b><br>
+1. Entre em azure.microsoft.com/free e crie a conta gratuita com seu e-mail da Microsoft (Outlook/Hotmail) ou crie um. Ela pede celular e cartão de crédito só para confirmar que você é uma pessoa; o plano grátis de Fala não cobra.<br>
+2. No portal (portal.azure.com), busque por <b>Fala</b> ou <b>Speech</b> na barra de cima e toque em <b>Criar</b>.<br>
+3. Preencha: Assinatura (a sua); Grupo de recursos: “Criar novo”, ex.: historias; Região: <b>Brazil South</b>; Nome: qualquer um, ex.: historias-voz; Tipo de preço: <b>Free F0</b>. Toque em Revisar + criar e depois em Criar.<br>
+4. Quando terminar, abra o recurso e vá em <b>Chaves e Ponto de Extremidade</b>. Copie a <b>Chave 1</b> e confira a região.<br>
+5. Aqui na página, escolha “Azure” na tela Voz, cole a chave, escolha a mesma região e toque em “Carregar vozes”.<br>
+Importante: a conta gratuita vem com um crédito de teste de 30 dias. Quando ele acabar, a Azure pede para “atualizar para pagamento conforme o uso”. Aceite: o recurso Free F0 continua grátis e não gera cobrança.</p>
+<p class="note"><b>Geral:</b></p>
 <p class="note">As chaves ficam guardadas só neste navegador. A ElevenLabs cobra por caractere: o plano grátis cobre uns 10 minutos de narração por mês. Ao gerar de novo com o mesmo texto e a mesma voz, a página reaproveita a narração e não gasta créditos.</p></details>
 </section>
+</div>
+<div id="mini" role="region" aria-label="Player">
+<button id="mPlay" class="mbtn" aria-label="Tocar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path id="mIco" d="M8 5v14l11-7z" fill="currentColor"/></svg></button>
+<button id="mInfo" class="mtx" data-ir="ouvir"><b id="mTit">Nenhuma história</b><span id="mSub">Toque para montar</span><i class="mbar"><i id="mProg"></i></i></button>
+<button id="mTimer" class="mbtn" aria-label="Timer para dormir: desligado"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg><small id="mTimerTx"></small></button>
 </div>
 
 <script id="dsp">
@@ -206,10 +369,26 @@ function gRain(n,r,heavy){var m=n+XF,o=new Float32Array(m),p=pinkGen(r),b=brownG
  for(i=0;i<m;i++)o[i]=hp(lp(p()*(heavy?1:.6)+(heavy?b()*.6:0)))*(.75+.5*sw());
  var d=new Float32Array(m);events(r,heavy?260:70,m,function(at){var len=Math.floor(SR*(.003+r()*.012)),a=(.15+r()*.85)*(heavy?.45:.8);for(var k=0;k<len&&at+k<m;k++)d[at+k]+=(r()*2-1)*a*Math.exp(-k/(len*.22))});
  var bp=biquad('bp',heavy?2400:3600,.9);for(i=0;i<m;i++)o[i]+=bp(d[i])*1.6;return loopify(o,n)}
-function gThunder(n,r){var o=new Float32Array(n),c=Math.max(2,Math.round(n/SR/45));
- for(var e=0;e<c;e++){var at=Math.floor((e+r()*.6)*n/c),dur=Math.floor((6+r()*6)*SR),b=brownGen(r),l1=biquad('lp',180+r()*120,.7),l2=biquad('lp',420,.7),fl=slow(r,1.8),atk=SR*(.3+r()*.9),amp=.5+r()*.5,near=r()<.5,hp=biquad('hp',900,.7);
-  for(var k=0;k<dur;k++){var env=k<atk?k/atk:Math.exp(-(k-atk)/(dur*.28));var v=l2(l1(b()))*env*(.35+.65*fl())*amp*3;
-   if(near&&k<SR*.35)v+=hp(r()*2-1)*Math.exp(-k/(SR*.08))*.35*amp;put(o,at+k,v)}}return o}
+/* trovões: 5 tipos sorteados por evento, cada um com envelope de vários "rolos", timbre próprio (sem o estalo/chiado agudo no início, que incomodava).
+   estilo: 'var' (variados), 'longe' (distantes), 'perto' (próximos e fortes) */
+var TROV_TIPOS={
+ perto:  {dur:[4,7],  lp:[900,1600],bp:[350,700], rolos:[2,4],crack:1,  rasgo:1,  amp:[.9,1]},
+ seco:   {dur:[3,5],  lp:[700,1100],bp:[250,450], rolos:[1,2],crack:.5, rasgo:0,  amp:[.8,1]},
+ ribombo:{dur:[8,13], lp:[600,1000],bp:[220,420], rolos:[4,7],crack:.3, rasgo:.3, amp:[.7,.9]},
+ rolante:{dur:[10,16],lp:[400,700], bp:[160,300], rolos:[3,6],crack:0,  rasgo:0,  amp:[.55,.75]},
+ longe:  {dur:[6,10], lp:[250,420], bp:[140,240], rolos:[2,4],crack:0,  rasgo:0,  amp:[.35,.55]}};
+var TROV_PESOS={var:{perto:2,seco:2,ribombo:2,rolante:2,longe:2},longe:{rolante:3,longe:4,ribombo:1},perto:{perto:4,seco:3,ribombo:2}};
+function sorteia(r,pesos){var t=0,k;for(k in pesos)t+=pesos[k];var x=r()*t;for(k in pesos){x-=pesos[k];if(x<=0)return k}return k}
+function entre(r,a){return a[0]+r()*(a[1]-a[0])}
+function umTrovao(o,at,r,T){var dur=Math.floor(entre(r,T.dur)*SR),b=brownGen(r),p=pinkGen(r),l1=biquad('lp',entre(r,T.lp),.7),l2=biquad('lp',entre(r,T.lp)*1.3,.7),bp=biquad('bp',entre(r,T.bp),.9),bp2=biquad('bp',entre(r,T.bp)*3,1.2),fl=slow(r,1.5+r()*3),amp=entre(r,T.amp),k,j;
+ /* rolos: estouros sucessivos que se sobrepõem */
+ var nr=Math.round(entre(r,T.rolos)),ro=[];for(j=0;j<nr;j++)ro.push({t:j===0?0:Math.floor(r()*dur*.55),a:j===0?1:.35+r()*.65,atk:SR*(.05+r()*.5),dec:dur*(.12+r()*.25)});
+ for(k=0;k<dur;k++){var env=0;for(j=0;j<nr;j++){var q=k-ro[j].t;if(q>=0)env+=ro[j].a*(q<ro[j].atk?q/ro[j].atk:Math.exp(-(q-ro[j].atk)/ro[j].dec))}
+  env*=.75+.25*fl();var tail=Math.min(1,(dur-k)/(SR*.8));
+  var v=(l2(l1(b()))*2.3+bp(p())*1.7+bp2(p())*.45*Math.min(1,env))*env*amp*tail;
+  put(o,at+k,v)}}
+function gThunder(n,r,iv,estilo){iv=iv||40;var o=new Float32Array(n),t=SR*(2+r()*3),pesos=TROV_PESOS[estilo]||TROV_PESOS['var'],ult='';
+ while(t<n){var tipo=sorteia(r,pesos);if(tipo===ult)tipo=sorteia(r,pesos);ult=tipo;umTrovao(o,Math.floor(t),r,TROV_TIPOS[tipo]);t+=iv*SR*(.6+r()*.8)}return o}
 function gFire(n,r){var m=n+XF,o=new Float32Array(m),b=brownGen(r),p=pinkGen(r),lp=biquad('lp',550,.7),hp2=biquad('hp',2500,.7),fl=slow(r,.9),i;
  for(i=0;i<m;i++)o[i]=lp(b())*(.5+.5*fl())*.9+hp2(p())*.06;
  var c=new Float32Array(m);events(r,7,m,function(at){var q=1+Math.floor(r()*4);for(var j=0;j<q;j++){var s=at+Math.floor(r()*SR*.05),len=20+Math.floor(r()*110),a=.25+r()*.75;for(var k=0;k<len&&s+k<m;k++)c[s+k]+=(r()*2-1)*a*Math.exp(-k/(len*.18))}});
@@ -243,7 +422,7 @@ function gPink(n,r){var m=n+XF,o=new Float32Array(m),p=pinkGen(r),lp=biquad('lp'
 var SONS=[
  {id:'chuva',nome:'Chuva leve',loop:60,g:function(n,r){return gRain(n,r,false)}},
  {id:'chuvaforte',nome:'Chuva forte',loop:60,g:function(n,r){return gRain(n,r,true)}},
- {id:'trovoes',nome:'Trovões ao longe',loop:150,g:gThunder,peak:1},
+ {id:'trovoes',nome:'Trovões',loop:300,g:gThunder,peak:1,vmax:2},
  {id:'fogueira',nome:'Fogueira estalando',loop:60,g:gFire},
  {id:'ondas',nome:'Ondas do mar',loop:100,g:gWaves},
  {id:'vento',nome:'Vento',loop:60,g:gWind},
@@ -257,9 +436,14 @@ var SONS=[
  {id:'rosa',nome:'Ruído rosa',loop:60,g:gPink}
 ];
 var _cache={};
-function somBuf(s){if(_cache[s.id])return _cache[s.id];var n=s.loop*SR,b=s.g(n,rng(1234+s.id.length*97+s.id.charCodeAt(0)));
- var i,v=0;if(s.peak){for(i=0;i<n;i++)v=Math.max(v,Math.abs(b[i]));v=.55/(v||1)}else{for(i=0;i<n;i++)v+=b[i]*b[i];v=.11/Math.sqrt(v/n||1)}
- for(i=0;i<n;i++)b[i]*=v;_cache[s.id]=b;return b}
+/* iv: intervalo dos trovões em segundos; o loop é múltiplo de 300 s para o fundo ao vivo repetir sem emenda */
+function somBuf(s,iv,estilo){var trov=s.id==='trovoes';iv=trov?Math.max(10,Math.min(600,iv||40)):0;estilo=trov?(estilo||'var'):'';var key=s.id+(trov?'|'+iv+'|'+estilo:'');if(_cache[key])return _cache[key];
+ var L=trov?300*Math.max(1,Math.ceil(iv/300)):s.loop,n=L*SR,b=s.g(n,rng(1234+s.id.length*97+s.id.charCodeAt(0)+iv),iv,estilo),i,v=0;
+ if(s.peak){for(i=0;i<n;i++)v=Math.max(v,Math.abs(b[i]));v=1/(v||1);
+  if(trov){var g=estilo==='longe'?.6:.95;for(i=0;i<n;i++)b[i]=Math.tanh(b[i]*v*3)/Math.tanh(3)*g}else for(i=0;i<n;i++)b[i]*=v*.55}
+ else{for(i=0;i<n;i++)v+=b[i]*b[i];v=.11/Math.sqrt(v/n||1);for(i=0;i<n;i++)b[i]*=v}
+ if(trov)for(var k in _cache)if(k.indexOf('trovoes|')===0)delete _cache[k];
+ _cache[key]=b;return b}
 
 /* time-stretch WSOLA: muda a velocidade da fala sem mudar o tom */
 function stretch(x,rate){if(Math.abs(rate-1)<.01||x.length<4096)return x;var N=1024,Hs=512,tol=256,win=new Float32Array(N),j;
@@ -295,7 +479,19 @@ if(typeof module!=='undefined')module.exports={SR:SR,SONS:SONS,somBuf:somBuf,str
 <script>
 {
 const $=id=>document.getElementById(id);
-const store={get(k,d){try{const v=localStorage.getItem('hpd_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('hpd_'+k,JSON.stringify(v))}catch(e){}}};
+/* armazenamento: preferências pequenas no localStorage; textos (biblioteca, rascunho, séries, pastas) no IndexedDB, sem o limite de ~5 MB */
+const BIG=['lib','rasc','serie','pastas'],_mem={};
+BIG.forEach(k=>{try{const v=localStorage.getItem('hpd_'+k);if(v!=null)_mem[k]=JSON.parse(v)}catch(e){}});
+let _db=null;
+function idb(){if(!_db)_db=new Promise((ok,no)=>{try{const r=indexedDB.open('historias-para-dormir',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}catch(e){no(e)}});return _db}
+function idbPut(k,v){idb().then(db=>{const tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=()=>{try{localStorage.removeItem('hpd_'+k)}catch(e){}}})
+ .catch(()=>{try{localStorage.setItem('hpd_'+k,JSON.stringify(v))}catch(e){}})}
+const store={get(k,d){if(BIG.includes(k))return k in _mem?_mem[k]:d;try{const v=localStorage.getItem('hpd_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+ set(k,v){if(BIG.includes(k)){_mem[k]=v;idbPut(k,v);return}try{localStorage.setItem('hpd_'+k,JSON.stringify(v))}catch(e){}}};
+const storeCarregado=idb().then(db=>new Promise(ok=>{const os=db.transaction('kv').objectStore('kv'),out={};let n=BIG.length;
+ BIG.forEach(k=>{const r=os.get(k);r.onsuccess=()=>{if(r.result!==undefined)out[k]=r.result;if(!--n)ok(out)};r.onerror=()=>{if(!--n)ok(out)}})}))
+ .then(out=>{const mud=[];BIG.forEach(k=>{if(k in out&&!(k in _mem)){_mem[k]=out[k];mud.push(k)}else if(k in _mem&&!(k in out))idbPut(k,_mem[k])});return mud}).catch(()=>[]);
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(()=>{})}catch(e){}
 const noClaude=!(window.claude&&typeof window.claude.use==='function');
 const cap=name=>noClaude?Promise.resolve(null):Promise.race([window.claude.use(name),new Promise(r=>setTimeout(()=>r(null),10000))]).catch(()=>null);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -346,38 +542,270 @@ A noite chega. Os estudiosos guardam seus rolos e caminham para casa pelas ruas 
 
 No alto, as estrelas aparecem uma a uma, as mesmas que você poderia ver hoje. O farol gira sua luz sobre a água. E a cidade, satisfeita com o que aprendeu, adormece tranquila.`}];
 $('exemplos').innerHTML=EXEMPLOS.map((e,i)=>`<button class="chip" data-i="${i}">${esc(e.tema)}: ${esc(e.t)}</button>`).join('')+'<span class="note" style="margin:4px 0 0;width:100%">Textos de exemplo, escritos para testar.</span>';
-$('exemplos').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;const x=EXEMPLOS[b.dataset.i];$('titulo').value=x.t;$('texto').value=x.x;conta();salvaRascunho()});
+$('exemplos').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;const x=EXEMPLOS[b.dataset.i];$('titulo').value=x.t;$('texto').value=x.x;atualId=null;setFontes('');marcaAtual();conta();salvaRascunho()});
 function conta(){const t=$('texto').value,w=(t.match(/\S+/g)||[]).length,v=+$('vel').value,min=w/130/v;
  $('contagem').textContent=w?`${w} palavras · ${t.length.toLocaleString('pt-BR')} caracteres · cerca de ${min<1?'menos de 1':Math.round(min)} min narrados`:'';custo()}
-function salvaRascunho(){store.set('rasc',{t:$('titulo').value,x:$('texto').value})}
+function salvaRascunho(){store.set('rasc',{t:$('titulo').value,x:$('texto').value,id:atualId,f:fontesAtuais})}
 $('texto').addEventListener('input',()=>{conta();salvaRascunho()});$('titulo').addEventListener('input',salvaRascunho);
-$('limpar').onclick=()=>{$('titulo').value='';$('texto').value='';conta();salvaRascunho()};
-function lib(){const l=store.get('lib',[]);$('lib').innerHTML=l.length?l.map((s,i)=>`<div><span>${esc(s.t||'Sem título')}</span><span class="row"><button class="tg" data-a="abrir" data-i="${i}">Abrir</button><button class="tg" data-a="apagar" data-i="${i}">Apagar</button></span></div>`).join(''):'<p class="note">Nenhuma história salva ainda.</p>'}
-$('salvar').onclick=()=>{const t=$('titulo').value.trim(),x=$('texto').value.trim();if(!x){status('Escreva algo antes de salvar.');return}const l=store.get('lib',[]).filter(s=>s.t!==t);l.unshift({t,x});store.set('lib',l.slice(0,60));lib();status('História salva na biblioteca.')};
-$('lib').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const l=store.get('lib',[]),s=l[b.dataset.i];if(b.dataset.a==='abrir'){$('titulo').value=s.t;$('texto').value=s.x;conta();salvaRascunho()}else{l.splice(b.dataset.i,1);store.set('lib',l);lib()}});
 
 /* IA */
 $('antKey').value=store.get('antKey','');$('antKey').addEventListener('change',()=>store.set('antKey',$('antKey').value.trim()));
 if(!noClaude)$('iaKeyBox').classList.add('hidden');
-function promptIA(){const min=+$('iaMin').value,pal=min*130;return `Escreva uma história para dormir, em português do Brasil, para ser narrada em voz alta a uma pessoa com insônia.
-Tema: ${$('iaTema').value}. Assunto: ${$('iaSobre').value||'à sua escolha, dentro do tema'}. Tom: ${$('iaTom').value}.
-Tamanho: cerca de ${pal} palavras (uns ${min} minutos de narração calma).
-Regras: nada de suspense, conflito, perigo ou sustos; frases fluidas, de ritmo lento; descrições sensoriais suaves; quando falar de direito, ciência ou história, use fatos corretos e explique com simplicidade, sem excesso de números e datas; parágrafos curtos separados por uma linha em branco; o final desacelera e convida ao descanso.
-Formato: na primeira linha, só o título; depois uma linha em branco; depois o texto. Sem markdown, sem listas, sem comentários antes ou depois.`}
+const TEMAS=['Direito','Espaço','História','Biologia','Física','Química','Astronomia','Geologia','Oceanos','Natureza','Animais','Botânica','Corpo humano','Medicina','Psicologia','Filosofia','Mitologia','Religiões','Arqueologia','Antiguidade','Idade Média','Geografia','Viagens e culturas','Arte','Música','Literatura','Matemática','Tecnologia','Economia','Arquitetura','Culinária','Esportes','Fantasia','Ficção científica'];
+const TONS=['sereno e contemplativo','documental e tranquilo','conto com personagens, muito calmo','poético e onírico','nostálgico e acolhedor','curioso e encantado, como quem descobre','meditativo, com convites à respiração','aconchegante, como conversa ao pé da lareira','filosófico e reflexivo','levemente bem-humorado, sem agitar','místico e enigmático, sem sustos','maravilhado, como documentário de natureza','didático e paciente, como uma boa aula'];
+const TIPOS=[['narrativa','Narrativa (conto)'],['prosa poetica','Prosa poética'],['poema','Poema'],['jornalistico','Texto jornalístico (reportagem)'],['dissertacao','Dissertação / ensaio'],['cronica','Crônica'],['documentario','Documentário narrado'],['diario','Diário de viagem'],['cartas','Cartas'],['dialogo','Diálogo entre personagens'],['fabula','Fábula'],['lenda','Lenda ou mito recontado'],['aula','Aula tranquila'],['meditacao','Meditação guiada']];
+const TIPO_REGRA={
+ narrativa:'Escreva como um conto em prosa, com narrador e, se quiser, personagens.',
+ 'prosa poetica':'Escreva em prosa poética: imagens delicadas, ritmo musical, frases que respiram.',
+ poema:'Escreva como um longo poema em versos livres, com estrofes separadas por uma linha em branco (cada estrofe é um "parágrafo"). Sem rimas forçadas.',
+ jornalistico:'Escreva como uma reportagem calma, com linguagem jornalística clara e objetiva, mas em ritmo lento e sem manchetes alarmantes.',
+ dissertacao:'Escreva como uma dissertação ou ensaio sereno: apresente a ideia, desenvolva com exemplos e chegue a uma conclusão tranquila.',
+ cronica:'Escreva como uma crônica: observação do cotidiano, voz pessoal e leve.',
+ documentario:'Escreva como o roteiro de um documentário narrado, com um narrador que descreve cenas e fatos.',
+ diario:'Escreva como entradas de um diário de viagem, em primeira pessoa.',
+ cartas:'Escreva como uma troca de cartas entre personagens, lidas em voz alta.',
+ dialogo:'Escreva como um diálogo calmo entre personagens, indicando quem fala de modo natural na própria narração (sem travessões em excesso e sem formato de roteiro).',
+ fabula:'Escreva como uma fábula, com uma lição suave no final.',
+ lenda:'Escreva como uma lenda ou mito recontado, em tom de quem conta uma história antiga.',
+ aula:'Escreva como uma aula tranquila e paciente, explicando passo a passo.',
+ meditacao:'Escreva como uma meditação guiada, alternando a história com convites suaves para relaxar o corpo e respirar.'};
+let iaTemasSel=store.get('iaTemas',['Espaço']);
+function desenhaTemas(){$('iaTemas').innerHTML=TEMAS.map(t=>`<button class="chip${iaTemasSel.includes(t)?' on':''}" data-tema="${esc(t)}" aria-pressed="${iaTemasSel.includes(t)}">${esc(t)}</button>`).join('')}
+desenhaTemas();
+$('iaTemas').addEventListener('click',e=>{const b=e.target.closest('[data-tema]');if(!b)return;const t=b.dataset.tema;iaTemasSel=iaTemasSel.includes(t)?iaTemasSel.filter(x=>x!==t):[...iaTemasSel,t];store.set('iaTemas',iaTemasSel);desenhaTemas()});
+$('iaTom').innerHTML=TONS.map(t=>`<option>${esc(t)}</option>`).join('');
+$('iaTipo').innerHTML=TIPOS.map(t=>`<option value="${t[0]}">${esc(t[1])}</option>`).join('');
+$('iaEps').innerHTML=[2,3,4,5,6,7,8,10,12,14,21,30].map(n=>`<option value="${n}"${n===5?' selected':''}>${n} episódios</option>`).join('');
+['iaSobre','iaDet','iaTom','iaTipo','iaMin','iaFormato','iaEps','iaPorDia','iaTemps','iaBase','iaFonteTipo'].forEach(id=>{const el=$(id),v=store.get(id,null);if(v!=null)el.value=v;const f=()=>{store.set(id,el.value);serieUI()};el.addEventListener('change',f);if(id==='iaMin')el.addEventListener('input',f)});
+pareia($('iaMin'));
+function serieUI(){const f=$('iaFormato').value,s=f!=='unica',tp=f==='temp';$('iaLongo').classList.toggle('hidden',+$('iaMin').value<=40);$('iaSerieBox').classList.toggle('hidden',!s);$('iaTempsBox').classList.toggle('hidden',!tp);
+ $('iaEpsLbl').textContent=tp?'Episódios por temporada':'Número de episódios';$('iaBtn').textContent=tp?'Criar série com temporadas':s?'Criar minissérie':'Escrever história';
+ const fatos=$('iaBase').value==='fatos';$('iaFonteBox').classList.toggle('hidden',!fatos);$('iaBaseNota').classList.toggle('hidden',!fatos);
+ $('iaBaseNota').textContent=noClaude?'Antes de escrever, a IA pesquisa na internet (até 8 buscas, cerca de US$ 0,01 cada na sua conta da Anthropic) e usa só fatos encontrados. As fontes ficam guardadas com a história, em “Fontes da pesquisa”, sem serem narradas.':'Aqui no link do Claude a página não acessa a internet: a IA usa só fatos bem estabelecidos que já conhece, sem links. Na versão hospedada, com a chave da Anthropic, ela pesquisa de verdade e lista as fontes.';
+ if(s){const T=tp?+$('iaTemps').value:1,n=tp?Math.min(12,+$('iaEps').value):+$('iaEps').value,tot=T*n,d=+$('iaPorDia').value,dias=Math.ceil(tot/d),min=+$('iaMin').value;
+  $('iaSerieInfo').textContent=(tp?`${T} temporadas × ${n} episódios = ${tot} áudios`:`${tot} áudios`)+` de ~${min} min, ${d} por dia: ${dias} ${dias>1?'dias':'dia'}. Cada episódio continua o anterior e vai para uma pasta própria na biblioteca.`+(tp&&+$('iaEps').value>12?' (Máximo de 12 episódios por temporada.)':'')}}
+serieUI();
+
+function pedidoIA(){const temas=iaTemasSel.length?iaTemasSel:['livre (à sua escolha)'],sobre=$('iaSobre').value.split(/[;\n]/).map(x=>x.trim()).filter(Boolean),det=$('iaDet').value.trim(),tipo=$('iaTipo').value;
+ return {temas,sobre,det,tom:$('iaTom').value,tipo,tipoNome:$('iaTipo').selectedOptions[0].text,min:Math.max(5,Math.min(120,+$('iaMin').value||10)),base:$('iaBase').value,fonteTipo:$('iaFonteTipo').value}}
+function blocoPedido(p){return `Temas: ${p.temas.join(' + ')}.${p.temas.length>1?' Combine todos esses temas de forma orgânica numa única história inédita, em que eles se encontrem com naturalidade (não faça uma parte para cada tema).':''}
+Assuntos: ${p.sobre.length?p.sobre.join('; ')+(p.sobre.length>1?' (use todos, entrelaçados).':'.'):'à sua escolha, dentro dos temas.'}
+${p.det?'Pedido detalhado da pessoa: '+p.det+'\n':''}Tom: ${p.tom}.
+Tipo de texto: ${p.tipoNome}. ${TIPO_REGRA[p.tipo]||''}${p.dossie?`
+Este texto tem fundamento real. Toda afirmação factual (datas, nomes, números, descobertas) deve vir da base factual abaixo; não invente dados fora dela. Se a pessoa pediu algo imaginário junto com fatos, deixe claro, com leveza, o que é real e o que é imaginação. Não cite as fontes no texto narrado.
+Base factual pesquisada:
+<<<
+${p.dossie}
+>>>`:''}`}
+const REGRAS=`Regras: é para uma pessoa com insônia adormecer, então nada de suspense, conflito, perigo ou sustos, mesmo em temas como alienígenas ou mistérios; frases fluidas, de ritmo lento; descrições sensoriais suaves; quando o texto tratar de fatos reais (direito, ciência, história), use fatos corretos e explique com simplicidade, sem excesso de números e datas; se a pessoa pedir algo imaginário sobre fatos reais (ex.: alienígenas construindo pirâmides), trate como ficção, com leveza; parágrafos curtos separados por uma linha em branco; o final desacelera e convida ao descanso.`;
+function promptIA(tf,p){p=p||pedidoIA();return `Escreva um texto para dormir, em português do Brasil, para ser narrado em voz alta a uma pessoa com insônia.
+${blocoPedido(p)}
+${REGRAS}
+${tf}`}
 function aplicaIA(txt){const i=txt.indexOf('\n'),t=i>0?txt.slice(0,i).replace(/^#+\s*|\*/g,'').trim():'';$('titulo').value=t;$('texto').value=(i>0?txt.slice(i+1):txt).trim();conta()}
-$('iaBtn').onclick=async()=>{const b=$('iaBtn');b.disabled=true;$('iaMsg').textContent='Escrevendo…';
- try{const s=await cap('sample');let txt;
-  if(s){const r=await s(promptIA(),{modelTier:'default',onText:({text})=>aplicaIA(text)});txt=r.text}
-  else{const k=$('antKey').value.trim();if(!k)throw new Error('Cole a chave da API da Anthropic acima, ou escreva a história você mesmo.');
-   const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-5-5',max_tokens:12000,messages:[{role:'user',content:promptIA()}]})});
-   const j=await r.json();if(!r.ok)throw new Error(j.error?.message||('Erro '+r.status));txt=j.content.map(c=>c.text||'').join('')}
-  aplicaIA(txt);salvaRascunho();$('iaMsg').textContent='Pronto. Revise e edite à vontade.'}
- catch(e){$('iaMsg').textContent=e.code==='not_granted'?'A IA não foi permitida nesta página.':(e.message||'Não deu certo. Tente de novo.')}finally{b.disabled=false}};
+async function pedeIA(prompt,onText,maxTok){const s=await cap('sample');
+ if(s){const r=await s(prompt,{modelTier:'default',onText:onText?({text})=>onText(text):undefined});return r.text}
+ const k=$('antKey').value.trim();if(!k)throw new Error('Cole a chave da API da Anthropic acima, ou escreva a história você mesmo.');
+ const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-5-5',max_tokens:maxTok||16000,messages:[{role:'user',content:prompt}]})});
+ const j=await r.json();if(!r.ok)throw new Error(j.error?.message||('Erro '+r.status));const t=j.content.map(c=>c.text||'').join('');if(onText)onText(t);return t}
+
+/* pesquisa: base factual com fontes (na versão hospedada, busca na internet pela API da Anthropic) */
+async function pesquisa(p){const cient=p.fonteTipo==='cient';
+ const instr=`Faça uma pesquisa para embasar um texto de não ficção para dormir, em português do Brasil.
+Temas: ${p.temas.join(', ')}.
+Assuntos: ${p.sobre.length?p.sobre.join('; '):'livre, dentro dos temas'}.
+${p.det?'Pedido da pessoa: '+p.det+'\n':''}${cient?'Priorize artigos científicos revisados por pares, revisões sistemáticas, universidades e instituições de pesquisa (por exemplo PubMed, SciELO, periódicos científicos, NASA, ESA, museus e universidades). Evite blogs e sites comerciais.':'Priorize fontes confiáveis: instituições, universidades, museus, enciclopédias, imprensa de qualidade e artigos científicos.'}
+Se o pedido mistura fatos com algo imaginário (ex.: alienígenas construindo pirâmides), pesquise a parte real (ex.: como as pirâmides foram construídas) e diga o que é consenso, o que é hipótese e o que não tem evidência.
+Responda só neste formato:
+FATOS:
+- um fato curto e verificado por linha, com a fonte entre parênteses (título curto e ano, se houver)
+(entre 12 e 25 fatos)
+CUIDADOS:
+- o que é incerto, controverso ou sem evidência (até 5 linhas)`;
+ const corta=t=>{const i=t.search(/FATOS:/i);return(i>=0?t.slice(i):t).trim()};
+ const s=await cap('sample');
+ if(s){const r=await s(instr+'\nVocê está sem acesso à internet agora: use só conhecimento bem estabelecido e, nas fontes, cite apenas referências que você tem certeza de que existem (instituições, livros, autores), sem links.',{modelTier:'default'});
+  const refs=[...new Set((r.text.match(/\(([^)]{4,120})\)/g)||[]).map(x=>x.slice(1,-1).trim()))];
+  return{fatos:corta(r.text),fontes:'Sem busca ao vivo: fatos do conhecimento da própria IA, sem links. Para pesquisar na internet e ter os links, use a versão hospedada com a chave da Anthropic.'+(refs.length?'\n\nReferências citadas:\n'+refs.map(x=>'• '+x).join('\n'):'')}}
+ const k=$('antKey').value.trim();if(!k)throw new Error('Para pesquisar, cole a chave da API da Anthropic acima.');
+ const msgs=[{role:'user',content:instr}],asst=[],cits=new Map();let txt='';
+ for(let volta=0;volta<4;volta++){
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+   body:JSON.stringify({model:'claude-sonnet-5-5',max_tokens:6000,tools:[{type:'web_search_20250305',name:'web_search',max_uses:8}],messages:asst.length?[...msgs,{role:'assistant',content:asst}]:msgs})});
+  const j=await r.json();if(!r.ok)throw new Error(j.error?.message||('Erro '+r.status));
+  for(const c of j.content){asst.push(c);if(c.type==='text'){txt+=c.text;(c.citations||[]).forEach(ci=>{if(ci.url&&!cits.has(ci.url))cits.set(ci.url,ci.title||ci.url)})}}
+  if(j.stop_reason!=='pause_turn')break;$('iaMsg').textContent='Pesquisando… (continuando a busca)'}
+ const lista=[...cits].map(([u,t])=>`• ${t}\n  ${u}`).join('\n');
+ return{fatos:corta(txt),fontes:lista?'Fontes encontradas na pesquisa:\n'+lista:'A pesquisa não devolveu links citados.'}}
+const tokPara=min=>Math.min(32000,Math.round(min*130*2.2)+1500);
+/* textos longos (acima de 40 min) são escritos em partes de ~30 min, cada uma continuando a anterior */
+async function escreveTexto(base,min,rot){const partes=min<=40?1:Math.ceil(min/30),pal=Math.round(min*130/partes),FMT='Sem markdown, sem listas, sem comentários antes ou depois.';
+ if(partes===1){const t=await pedeIA(base(`Tamanho: cerca de ${min*130} palavras (uns ${min} minutos de narração calma).\nFormato: na primeira linha, só o título; depois uma linha em branco; depois o texto. ${FMT}`),x=>aplicaIA(x),tokPara(min));aplicaIA(t);return}
+ let titulo='',corpo='';
+ for(let k=0;k<partes;k++){$('iaMsg').textContent=`${rot}: parte ${k+1} de ${partes}…`;
+  const fim=corpo.split(/\n\s*\n/).slice(-4).join('\n\n');
+  const tf=`Tamanho total: cerca de ${min*130} palavras (uns ${min} minutos de narração calma). Por ser longo, o texto é escrito em ${partes} partes seguidas, que serão emendadas e narradas como um texto só.
+Escreva agora só a parte ${k+1} de ${partes}, com cerca de ${pal} palavras.
+${k===0?`Formato: na primeira linha, só o título; depois uma linha em branco; depois o texto. ${FMT}`:`Continue exatamente de onde parou o trecho abaixo, sem repetir, sem resumir e sem título, mantendo a mesma voz, personagens e ritmo:\n<<<\n${fim}\n>>>\nFormato: só o texto da continuação. ${FMT}`}
+${k<partes-1?'Não conclua o texto: pare num ponto natural de pausa, porque ele continua na próxima parte.':'Esta é a última parte: conduza ao final, desacelerando.'}`;
+  const pre=corpo?corpo+'\n\n':'',mostra=x=>{if(k===0)aplicaIA(x);else{$('texto').value=pre+x.trim();conta()}};
+  const t=await pedeIA(base(tf),mostra,tokPara(min/partes));
+  if(k===0){aplicaIA(t);titulo=$('titulo').value;corpo=$('texto').value}else{corpo=pre+t.trim();$('titulo').value=titulo;$('texto').value=corpo;conta()}}}
+/* ---------- biblioteca com pastas (minissérie, temporadas, pasta comum) ---------- */
+let atualId=null,fontesAtuais='';
+const novoId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const TIPO_P={mini:['🎞️','Minissérie'],temp:['📺','Temporadas'],pasta:['📁','Pasta']};
+function libItens(){const l=store.get('lib',[]);let m=false;l.forEach(s=>{if(!s.id){s.id=novoId();m=true}});if(m)store.set('lib',l);return l}
+const pastas=()=>store.get('pastas',[]);
+function criaPasta(nome,tipo){const ps=pastas(),p={id:novoId(),nome:nome.trim()||'Sem nome',tipo};ps.push(p);store.set('pastas',ps);return p}
+function rotItem(s){const pa=pastas().find(p=>p.id===s.pasta);let r='';if(pa){if(pa.tipo==='temp'&&s.temp)r+=`T${s.temp} · `;if(s.ep&&pa.tipo!=='pasta')r+=`E${s.ep} · `}return r+(s.t||'Sem título')}
+const ordena=(a,b)=>(a.temp||0)-(b.temp||0)||(a.ep||0)-(b.ep||0)||(b.quando||0)-(a.quando||0);
+function opcoesPasta(sel){return `<option value=""${!sel?' selected':''}>Sem pasta</option>`+pastas().map(p=>`<option value="${p.id}"${p.id===sel?' selected':''}>${TIPO_P[p.tipo][0]} ${esc(p.nome)}</option>`).join('')}
+const itemHTML=s=>`<div class="item"><span class="it">${esc(rotItem(s))}</span><span class="row"><button class="tg" data-a="abrir" data-id="${s.id}">Abrir</button><select class="mover" data-id="${s.id}" aria-label="Pasta de “${esc(s.t||'Sem título')}”">${opcoesPasta(s.pasta)}</select><button class="tg" data-a="apagar" data-id="${s.id}">Apagar</button></span></div>`;
+const pastasAbertas=new Set();
+function lib(){const l=libItens(),ps=pastas();let h='';
+ ps.forEach(p=>{const its=l.filter(s=>s.pasta===p.id).sort(ordena);
+  h+=`<details class="pasta" data-pasta="${p.id}"${pastasAbertas.has(p.id)?' open':''}><summary><span class="ce" aria-hidden="true">${TIPO_P[p.tipo][0]}</span>${esc(p.nome)}<span class="cnt">${its.length} ${its.length===1?'item':'itens'}</span></summary><div>${its.map(itemHTML).join('')||'<p class="note">Pasta vazia. Mova histórias para cá ou salve um episódio nela em Escrever.</p>'}</div><div class="row" style="margin-top:6px"><button class="tg" data-pa="renomear" data-id="${p.id}">Renomear</button><button class="tg" data-pa="apagar" data-id="${p.id}">Apagar pasta</button></div></details>`});
+ const av=l.filter(s=>!s.pasta||!ps.some(p=>p.id===s.pasta)).sort((a,b)=>(b.quando||0)-(a.quando||0));
+ h+=`<h3 class="sec">${ps.length?'Sem pasta':'Suas histórias'}</h3><div>${av.map(itemHTML).join('')||'<p class="note">Nenhuma história salva ainda.</p>'}</div>`;
+ $('lib').innerHTML=h;preenchePastaSel();if(typeof atualizaHome==='function')atualizaHome()}
+$('lib').addEventListener('toggle',e=>{const d=e.target.closest&&e.target.closest('details.pasta');if(d)(d.open?pastasAbertas.add(d.dataset.pasta):pastasAbertas.delete(d.dataset.pasta))},true);
+function abreItem(s){$('titulo').value=s.t||'';$('texto').value=s.x||'';atualId=s.id;setFontes(s.fontes||'');
+ const pa=pastas().find(p=>p.id===s.pasta);$('hTipo').value=pa&&pa.tipo!=='pasta'?pa.tipo:'unico';preenchePastaSel(s.pasta||'');$('hTemp').value=s.temp||1;$('hEp').value=s.ep||1;tipoUI();conta();salvaRascunho()}
+$('lib').addEventListener('click',e=>{const b=e.target.closest('[data-a],[data-pa]');if(!b)return;const l=libItens();
+ if(b.dataset.a==='abrir'){const s=l.find(x=>x.id===b.dataset.id);if(s)abreItem(s);return}
+ if(b.dataset.a==='apagar'){const i=l.findIndex(x=>x.id===b.dataset.id);if(i<0)return;if(!confirm(`Apagar “${l[i].t||'Sem título'}” da biblioteca?`))return;if(atualId===l[i].id)atualId=null;l.splice(i,1);store.set('lib',l);lib();return}
+ const ps=pastas(),p=ps.find(x=>x.id===b.dataset.id);if(!p)return;
+ if(b.dataset.pa==='renomear'){const n=prompt('Novo nome da pasta:',p.nome);if(n&&n.trim()){p.nome=n.trim();store.set('pastas',ps);lib()}return}
+ if(b.dataset.pa==='apagar'){if(!confirm(`Apagar a pasta “${p.nome}”? As histórias dela não são apagadas: vão para “Sem pasta”.`))return;store.set('pastas',ps.filter(x=>x!==p));l.forEach(s=>{if(s.pasta===p.id){s.pasta=null}});store.set('lib',l);lib()}});
+$('lib').addEventListener('change',e=>{const sel=e.target.closest('select.mover');if(!sel)return;const l=libItens(),s=l.find(x=>x.id===sel.dataset.id);if(!s)return;
+ s.pasta=sel.value||null;const pa=pastas().find(p=>p.id===s.pasta);
+ if(pa&&pa.tipo!=='pasta'&&!s.ep){const irmaos=l.filter(x=>x.pasta===pa.id&&x!==s);s.ep=irmaos.length+1;if(pa.tipo==='temp'&&!s.temp)s.temp=1}
+ if(pa)pastasAbertas.add(pa.id);store.set('lib',l);lib()});
+$('npCriar').onclick=()=>{const n=$('npNome').value.trim();if(!n){$('npNome').focus();return}const p=criaPasta(n,$('npTipo').value);pastasAbertas.add(p.id);$('npNome').value='';$('npBox').open=false;lib()};
+
+/* Escrever: tipo, pasta, temporada e episódio */
+function preenchePastaSel(sel){const t=$('hTipo').value,cur=sel!==undefined?sel:$('hPasta').value,ps=pastas().filter(p=>t==='unico'||p.tipo===t);
+ $('hPasta').innerHTML=(t==='unico'?'<option value="">Sem pasta</option>':'<option value="">Escolha a série…</option>')+ps.map(p=>`<option value="${p.id}">${TIPO_P[p.tipo][0]} ${esc(p.nome)}</option>`).join('')+`<option value="__nova">＋ Nova ${t==='temp'?'série com temporadas':t==='mini'?'minissérie':'pasta'}…</option>`;
+ $('hPasta').value=ps.some(p=>p.id===cur)?cur:''}
+function tipoUI(){const t=$('hTipo').value;$('hNums').classList.toggle('hidden',t==='unico');$('hTempBox').classList.toggle('hidden',t!=='temp')}
+$('hTipo').onchange=()=>{preenchePastaSel();tipoUI()};
+$('hPasta').onchange=()=>{if($('hPasta').value!=='__nova')return;const t=$('hTipo').value,n=prompt(t==='temp'?'Nome da série com temporadas:':t==='mini'?'Nome da minissérie:':'Nome da pasta:');
+ if(n&&n.trim()){const p=criaPasta(n,t==='unico'?'pasta':t);lib();preenchePastaSel(p.id);
+  const proximo=libItens().filter(s=>s.pasta===p.id).length+1;$('hEp').value=proximo}else preenchePastaSel('')};
+const hmsg=t=>{$('hMsg').textContent=t||''};
+function salvaHist(nova){const t=$('titulo').value.trim(),x=$('texto').value.trim(),tipo=$('hTipo').value,pasta=$('hPasta').value&&$('hPasta').value!=='__nova'?$('hPasta').value:null;
+ if(!x){hmsg('Escreva ou importe um texto antes de salvar.');return}if(tipo!=='unico'&&!pasta){hmsg('Escolha ou crie a série deste episódio.');$('hPasta').focus();return}
+ const l=libItens();let it=!nova&&atualId&&l.find(s=>s.id===atualId);if(!it){it={id:novoId()};l.unshift(it)}
+ Object.assign(it,{t,x,pasta,temp:tipo==='temp'?Math.max(1,parseInt($('hTemp').value)||1):null,ep:tipo!=='unico'?Math.max(1,parseInt($('hEp').value)||1):null,fontes:fontesAtuais,quando:Date.now()});
+ atualId=it.id;if(pasta)pastasAbertas.add(pasta);store.set('lib',l);lib();salvaRascunho();$('salvarNova').classList.remove('hidden');$('salvar').textContent='Salvar alterações';
+ const pa=pastas().find(p=>p.id===pasta);hmsg(`Salvo na biblioteca${pa?' em '+TIPO_P[pa.tipo][0]+' '+pa.nome:''}.`)}
+$('salvar').onclick=()=>salvaHist(false);$('salvarNova').onclick=()=>salvaHist(true);
+$('limpar').onclick=()=>{$('titulo').value='';$('texto').value='';atualId=null;setFontes('');$('salvarNova').classList.add('hidden');$('salvar').textContent='Salvar na biblioteca';hmsg('');conta();salvaRascunho()};
+function setFontes(f){fontesAtuais=f||'';$('fontesBox').classList.toggle('hidden',!fontesAtuais);$('fontesTx').textContent=fontesAtuais}
+function marcaAtual(){const ab=!!atualId;$('salvarNova').classList.toggle('hidden',!ab);$('salvar').textContent=ab?'Salvar alterações':'Salvar na biblioteca'}
+
+/* ---------- importar PDF, Word (.docx) ou texto ---------- */
+async function lerDocx(buf){const u=new Uint8Array(buf),dv=new DataView(buf);let eocd=-1;
+ for(let i=u.length-22;i>=Math.max(0,u.length-65557);i--){if(dv.getUint32(i,true)===0x06054b50){eocd=i;break}}if(eocd<0)throw new Error('o arquivo .docx parece danificado');
+ let n=dv.getUint16(eocd+10,true),off=dv.getUint32(eocd+16,true);
+ for(let k=0;k<n;k++){const met=dv.getUint16(off+10,true),csz=dv.getUint32(off+20,true),nl=dv.getUint16(off+28,true),xl=dv.getUint16(off+30,true),cl=dv.getUint16(off+32,true),lho=dv.getUint32(off+42,true),nome=new TextDecoder().decode(u.subarray(off+46,off+46+nl));
+  if(nome==='word/document.xml'){const ini=lho+30+dv.getUint16(lho+26,true)+dv.getUint16(lho+28,true),dados=u.subarray(ini,ini+csz);let xml;
+   if(met===0)xml=new TextDecoder().decode(dados);
+   else if(met===8){if(!window.DecompressionStream)throw new Error('este navegador não abre .docx; atualize o iOS ou use PDF');xml=await new Response(new Blob([dados]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text()}
+   else throw new Error('compressão do .docx não suportada');return docxTexto(xml)}
+  off+=46+nl+xl+cl}throw new Error('não achei o texto dentro do .docx')}
+function docxTexto(xml){const W='http://schemas.openxmlformats.org/wordprocessingml/2006/main',d=new DOMParser().parseFromString(xml,'application/xml'),out=[];
+ for(const p of d.getElementsByTagNameNS(W,'p')){let t='';const anda=n=>{for(const c of n.childNodes){if(c.nodeType!==1)continue;if(c.namespaceURI===W){const ln=c.localName;if(ln==='t')t+=c.textContent;else if(ln==='tab')t+=' ';else if(ln==='br'||ln==='cr')t+='\n';else if(ln!=='p'&&ln!=='delText'&&ln!=='instrText')anda(c)}else anda(c)}};anda(p);t=t.replace(/[ \t]+/g,' ').trim();if(t)out.push(t)}
+ return out.join('\n\n')}
+let _pdfjs=null;const PDFJS='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/';
+function pdfLib(){if(!_pdfjs)_pdfjs=import(PDFJS+'pdf.min.mjs').then(m=>{m.GlobalWorkerOptions.workerSrc=PDFJS+'pdf.worker.min.mjs';return m})
+ .catch(()=>{_pdfjs=null;throw new Error(noClaude?'não consegui carregar o leitor de PDF (confira a internet)':'dentro do link do Claude o leitor de PDF não carrega; use a versão hospedada ou um arquivo Word (.docx)')});return _pdfjs}
+async function lerPdf(buf,aviso){const pdfjs=await pdfLib(),doc=await pdfjs.getDocument({data:new Uint8Array(buf)}).promise,pars=[];let cur='';
+ for(let i=1;i<=doc.numPages;i++){aviso(`Lendo a página ${i} de ${doc.numPages}…`);const tc=await(await doc.getPage(i)).getTextContent();let ls=[],line='',y=null;
+  for(const it of tc.items){if(!('str' in it))continue;const iy=it.transform[5];if(y!==null&&Math.abs(iy-y)>2&&line.trim()){ls.push({t:line,y});line=''}if(!line)y=iy;line+=it.str;if(it.hasEOL){if(line.trim())ls.push({t:line,y});line='';y=null}}
+  if(line.trim())ls.push({t:line,y});
+  const gs=[];for(let k=1;k<ls.length;k++){const g=ls[k-1].y-ls[k].y;if(g>0)gs.push(g)}gs.sort((a,b)=>a-b);const med=gs[Math.floor(gs.length/2)]||12;
+  ls.forEach((l,k)=>{const t=l.t.replace(/\s+/g,' ').trim();if(k>0){const g=ls[k-1].y-l.y;if((g>med*1.45||g<0)&&cur){pars.push(cur);cur=''}}cur=cur?(/[-‐]$/.test(cur)?cur.slice(0,-1)+t:cur+' '+t):t});
+  if(cur&&/[.!?…:"”»)]$/.test(cur)){pars.push(cur);cur=''}}
+ if(cur)pars.push(cur);return pars.filter(x=>!/^\d{1,4}$/.test(x)).join('\n\n')}
+$('importArq').onchange=async()=>{const f=$('importArq').files[0];if(!f)return;const m=t=>{$('importMsg').textContent=t};m('Lendo '+f.name+'…');
+ try{const nome=f.name.toLowerCase(),buf=await f.arrayBuffer();let tx;
+  if(nome.endsWith('.pdf')||f.type==='application/pdf')tx=await lerPdf(buf,m);
+  else if(nome.endsWith('.docx'))tx=await lerDocx(buf);
+  else if(nome.endsWith('.doc'))throw new Error('o formato .doc antigo não é aceito; no Word, use Salvar como › .docx ou PDF');
+  else tx=new TextDecoder().decode(buf);
+  tx=tx.replace(/\r/g,'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+  if(!tx)throw new Error(nome.endsWith('.pdf')?'esse PDF não tem texto selecionável (parece imagem escaneada)':'o arquivo está vazio');
+  if($('texto').value.trim()&&!confirm('Substituir o texto que está no editor pelo do arquivo?')){m('Importação cancelada.');return}
+  $('titulo').value=f.name.replace(/\.[^.]+$/,'').replace(/[_]+/g,' ').trim();$('texto').value=tx;atualId=null;marcaAtual();setFontes('');conta();salvaRascunho();if(typeof atualizaHome==='function')atualizaHome();
+  const w=(tx.match(/\S+/g)||[]).length;m(`Importado: ${w.toLocaleString('pt-BR')} palavras, cerca de ${Math.max(1,Math.round(w/130))} min de narração. Confira o título e salve na biblioteca.`)}
+ catch(e){m('Não consegui ler: '+(e.message||e)+'.')}finally{$('importArq').value=''}};
+
+
+/* minissérie: 1) plano com títulos e resumos; 2) cada episódio, continuando o anterior */
+let iaStop=false;
+function rotuloEp(sr,i){const d=Math.floor(i/sr.porDia)+1,k=i%sr.porDia+1,dia=sr.porDia>1?`Dia ${d}, parte ${k}`:`Dia ${d}`;return sr.epsT?`T${Math.floor(i/sr.epsT)+1} E${i%sr.epsT+1} · ${dia}`:`Ep. ${i+1} · ${dia}`}
+const tempDe=(sr,i)=>sr.epsT?Math.floor(i/sr.epsT)+1:null,epDe=(sr,i)=>sr.epsT?i%sr.epsT+1:i+1;
+function desenhaSerie(){const sr=store.get('serie',null),box=$('iaSerieLista');if(!sr){box.classList.add('hidden');$('iaCont').classList.add('hidden');return}
+ box.classList.remove('hidden');box.innerHTML=`<p class="note" style="margin:0 0 4px"><b>${sr.epsT?'📺':'🎞️'} ${esc(sr.titulo)}</b> · ${sr.feitos} de ${sr.eps.length} episódios prontos</p>`+sr.eps.map((e,i)=>`<div><span>${esc(rotuloEp(sr,i))}: ${esc(e.titulo)}</span><span class="row">${i<sr.feitos?`<button class="tg" data-ep="${i}">Abrir</button>`:'<span class="note" style="margin:0">a escrever</span>'}</span></div>`).join('');
+ $('iaCont').classList.toggle('hidden',sr.feitos>=sr.eps.length)}
+$('iaSerieLista').addEventListener('click',e=>{const b=e.target.closest('[data-ep]');if(!b)return;const sr=store.get('serie',null),x=sr&&sr.textos[b.dataset.ep];if(!x)return;$('titulo').value=x.t;$('texto').value=x.x;atualId=x.id||null;setFontes(sr.fontes||'');if(x.id){const it=libItens().find(s=>s.id===x.id);if(it){abreItem(it);return}}marcaAtual();conta();salvaRascunho()});
+async function planoSerie(p,n,porDia,T){const N=n*(T||1),tp=!!T;
+ const txt=await pedeIA(`Planeje ${tp?`uma série para dormir com ${T} temporadas de ${n} episódios cada (${N} episódios no total)`:`uma minissérie para dormir de ${n} episódios`}, em português do Brasil, para ser narrada em voz alta a uma pessoa com insônia. Cada episódio terá uns ${p.min} minutos. Serão ${porDia} episódio(s) por noite.
+${blocoPedido(p)}
+${tp?'Cada temporada tem um arco próprio, que começa e termina com serenidade, e as temporadas se encadeiam num fio condutor maior.':'A série deve ter um fio condutor do começo ao fim.'} Cada episódio continua o anterior e avança a história com calma, sem ganchos de suspense; o último fecha a série com serenidade.
+Responda só neste formato, sem nada antes ou depois:
+SERIE: título da série
+${tp?'TEMPORADA 1: título da temporada | resumo em 1 ou 2 frases\n':''}EP 1: título do episódio | resumo em 2 ou 3 frases
+EP 2: título do episódio | resumo em 2 ou 3 frases
+(numere os episódios de 1 a ${N} em sequência${tp?`, pondo a linha TEMPORADA antes do primeiro episódio de cada uma; a temporada 2 começa no EP ${n+1}`:''})`,null,Math.min(16000,3000+N*120));
+ const titulo=(txt.match(/SERIE:\s*(.+)/i)||[])[1]||(tp?'Série':'Minissérie'),eps=[],temps=[];
+ txt.replace(/TEMPORADA\s*(\d+)\s*:\s*([^|\n]+)(?:\|\s*([^\n]+))?/gi,(m,k,t,r)=>{temps[+k-1]={titulo:t.trim(),resumo:(r||'').trim()}});
+ txt.replace(/EP\s*(\d+)\s*:\s*([^|\n]+)\|\s*([^\n]+)/gi,(m,k,t,r)=>{eps[+k-1]={titulo:t.trim(),resumo:r.trim()}});
+ const ok=eps.slice(0,N).filter(Boolean);if(ok.length<N)throw new Error('A IA não devolveu o plano completo. Tente de novo.');return{titulo:titulo.trim().replace(/\*/g,''),eps:ok,temps}}
+function promptEp(sr,i,tf){const p=sr.pedido,e=sr.eps[i],ant=i>0?sr.textos[i-1]:null,fimAnt=ant?ant.x.split(/\n\s*\n/).slice(-3).join('\n\n'):'';
+ const T=tempDe(sr,i),tm=T&&sr.temps&&sr.temps[T-1];
+ return `Escreva ${T?`o episódio ${epDe(sr,i)} da temporada ${T} (episódio ${i+1} de ${sr.eps.length} no total) da série`:`o episódio ${i+1} de ${sr.eps.length} da minissérie`} para dormir "${sr.titulo}", em português do Brasil, para ser narrado em voz alta a uma pessoa com insônia.${tm?`
+Temporada ${T}: ${tm.titulo}${tm.resumo?' — '+tm.resumo:''}`:''}
+${blocoPedido(p)}
+Plano da série:
+${sr.eps.map((x,k)=>`${sr.epsT?`T${tempDe(sr,k)} E${epDe(sr,k)}`:'Ep. '+(k+1)}: ${x.titulo} — ${x.resumo}`).join('\n')}
+Este episódio: "${e.titulo}" — ${e.resumo}
+${ant?`Final do episódio anterior, para dar continuidade (mesmos personagens, lugares e voz narrativa):\n"""\n${fimAnt}\n"""\nComece com uma lembrança breve e suave do que aconteceu antes, e siga dali.`:'É o primeiro episódio: apresente o mundo, a voz narrativa e os personagens com calma.'}
+${i>=sr.eps.length-1?'É o último episódio: feche a série com serenidade.':sr.epsT&&epDe(sr,i)===sr.epsT?'É o último episódio da temporada: feche o arco dela em repouso; a próxima temporada continua depois.':'Termine em repouso, sem gancho de suspense; no máximo, uma promessa tranquila de que a história continua.'}
+${REGRAS}
+${tf}`}
+async function escreveSerie(){let sr=store.get('serie',null);const nomeS=sr.epsT?'série':'minissérie';
+ for(let i=sr.feitos;i<sr.eps.length;i++){if(iaStop){$('iaMsg').textContent=`Parado. ${sr.feitos} de ${sr.eps.length} prontos; toque em “Continuar a série” quando quiser.`;return}
+  $('iaMsg').textContent=`Escrevendo ${rotuloEp(sr,i).split(' · ')[0]} (${i+1} de ${sr.eps.length}): ${sr.eps[i].titulo}…`;
+  await escreveTexto(tf=>promptEp(sr,i,tf),sr.pedido.min,`${rotuloEp(sr,i).split(' · ')[0]} (${i+1} de ${sr.eps.length})`);
+  const tEp=$('titulo').value.trim()||sr.eps[i].titulo,x=$('texto').value,l=libItens(),it={id:novoId(),t:tEp,x,pasta:sr.pasta||null,temp:tempDe(sr,i),ep:epDe(sr,i),fontes:sr.fontes||'',quando:Date.now()};
+  l.unshift(it);store.set('lib',l);sr.textos[i]={t:tEp,x,id:it.id};sr.feitos=i+1;store.set('serie',sr);
+  if(sr.pasta)pastasAbertas.add(sr.pasta);lib();abreItem(it);desenhaSerie()}
+ $('iaMsg').textContent=`Pronto: ${sr.eps.length} episódios na pasta “${sr.titulo}” da biblioteca. O último está aberto; os outros, na lista abaixo ou na Biblioteca.`}
+function iaOcupado(on){$('iaBtn').disabled=on;$('iaCont').disabled=on;$('iaParar').classList.toggle('hidden',!on);iaStop=false}
+const iaErro=e=>{$('iaMsg').textContent=e.code==='not_granted'?'A IA não foi permitida nesta página.':(e.message||'Não deu certo. Tente de novo.')};
+$('iaParar').onclick=()=>{iaStop=true;$('iaMsg').textContent='Vou parar ao terminar o episódio atual…'};
+$('iaCont').onclick=async()=>{iaOcupado(true);try{await escreveSerie()}catch(e){iaErro(e)}finally{iaOcupado(false);desenhaSerie()}};
+$('iaBtn').onclick=async()=>{const p=pedidoIA(),f=$('iaFormato').value;iaOcupado(true);
+ try{if(f!=='unica'){const sr0=store.get('serie',null);if(sr0&&sr0.feitos<sr0.eps.length&&!confirmaNova())return;
+   const T=f==='temp'?+$('iaTemps').value:0,n=T?Math.min(12,+$('iaEps').value):+$('iaEps').value,porDia=+$('iaPorDia').value;let fontes='';
+   if(p.base==='fatos'){$('iaMsg').textContent='Pesquisando para dar fundamento à série…';const d=await pesquisa(p);p.dossie=d.fatos;fontes=d.fontes}
+   $('iaMsg').textContent=T?'Planejando as temporadas…':'Planejando a minissérie…';
+   const pl=await planoSerie(p,n,porDia,T||0),pasta=criaPasta(pl.titulo,T?'temp':'mini');pastasAbertas.add(pasta.id);lib();
+   store.set('serie',{titulo:pl.titulo,eps:pl.eps,temps:pl.temps,epsT:T?n:0,porDia,pedido:p,textos:[],feitos:0,pasta:pasta.id,fontes});desenhaSerie();await escreveSerie()}
+  else{let fontes='';if(p.base==='fatos'){$('iaMsg').textContent='Pesquisando…';const d=await pesquisa(p);p.dossie=d.fatos;fontes=d.fontes}
+   $('iaMsg').textContent='Escrevendo…';await escreveTexto(tf=>promptIA(tf,p),p.min,'Escrevendo');atualId=null;setFontes(fontes);marcaAtual();$('hTipo').value='unico';preenchePastaSel('');tipoUI();salvaRascunho();
+   $('iaMsg').textContent=fontes?'Pronto. As fontes estão em Escrever › “Fontes da pesquisa”. Revise e salve na biblioteca.':'Pronto. Revise, edite à vontade e salve na biblioteca (em Escrever).'}}
+ catch(e){iaErro(e)}finally{iaOcupado(false);desenhaSerie()}};
+let novaOk=false;function confirmaNova(){if(novaOk){novaOk=false;return true}novaOk=true;$('iaMsg').textContent='Há uma série incompleta. Toque de novo no botão de criar para começar outra (os episódios já prontos continuam na biblioteca), ou em “Continuar a série”.';return false}
+desenhaSerie();
 
 /* ---------- 2. vozes ---------- */
 let motor=store.get('motor','iphone');
 function setMotor(m){motor=m;store.set('motor',m);document.querySelectorAll('#motor .chip').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
- $('boxIphone').classList.toggle('hidden',m!=='iphone');$('boxEleven').classList.toggle('hidden',m!=='eleven');$('ao_iph').classList.toggle('hidden',m!=='iphone');$('ao_el').classList.toggle('hidden',m!=='eleven');$('elBloq').classList.toggle('hidden',noClaude);custo()}
+ $('boxIphone').classList.toggle('hidden',m!=='iphone');$('boxEleven').classList.toggle('hidden',m!=='eleven');$('boxPiper').classList.toggle('hidden',m!=='piper');$('boxAzure').classList.toggle('hidden',m!=='azure');$('ao_iph').classList.toggle('hidden',m!=='iphone');$('ao_el').classList.toggle('hidden',m==='iphone');['elBloq','piperBloq','azBloq'].forEach(id=>$(id).classList.toggle('hidden',noClaude));custo()}
 $('motor').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMotor(b.dataset.m)});
 const synth=window.speechSynthesis;
 function listaIph(){if(!synth){$('vozIph').innerHTML='<option>Este navegador não tem vozes</option>';return}
@@ -404,29 +832,92 @@ async function elTTS(text,speed){const k=$('elKey').value.trim();if(!k)throw new
  const ab=await r.arrayBuffer(),Ctx=window.OfflineAudioContext||window.webkitOfflineAudioContext,ctx=new Ctx(1,SR,SR);
  const buf=await new Promise((ok,no)=>{const p=ctx.decodeAudioData(ab,ok,no);if(p&&p.then)p.then(ok,no)});return buf.getChannelData(0).slice()}
 
-/* sliders */
-const fmt={vel:v=>(+v).toFixed(2).replace('.',',')+'×',pausa:v=>(+v).toString().replace('.',',')+' s',lead:v=>v+' s',cauda:v=>v+' min',volN:v=>Math.round(v*100)+'%',volF:v=>Math.round(v*100)+'%',elEstab:v=>Math.round(v*100)+'%'};
-Object.keys(fmt).forEach(id=>{const el=$(id);el.value=store.get(id,el.value);const up=()=>{$(id+'V').textContent=fmt[id](el.value);store.set(id,el.value)};el.addEventListener('input',()=>{up();if(id==='vel')conta();if(id==='volF')fundoSujo=true});up()});
+/* ---------- Piper (grátis, roda no navegador) e Azure ---------- */
+async function decodifica(ab){const Ctx=window.OfflineAudioContext||window.webkitOfflineAudioContext,ctx=new Ctx(1,SR,SR);
+ const buf=await new Promise((ok,no)=>{const p=ctx.decodeAudioData(ab,ok,no);if(p&&p.then)p.then(ok,no)});return buf.getChannelData(0).slice()}
+let _piper=null;
+function piperLib(){if(!_piper)_piper=import('https://cdn.jsdelivr.net/npm/@diffusionstudio/vits-web@1.0.3/+esm').catch(e=>{_piper=null;throw new Error('não consegui carregar o Piper (confira a internet)')});return _piper}
+const piperVoz=()=>$('vozPiper').value;
+async function piperPronta(voz,aviso){const tts=await piperLib();let st=[];try{st=await tts.stored()}catch(e){}
+ if(!st.includes(voz)){await tts.download(voz,p=>{if(p.total&&aviso)aviso(`Baixando a voz: ${Math.round(p.loaded/p.total*100)}%`)})}return tts}
+async function piperTTS(text){const voz=piperVoz(),tts=await piperPronta(voz,t=>status(t));const wav=await tts.predict({text,voiceId:voz});return decodifica(await wav.arrayBuffer())}
+$('vozPiper').value=store.get('vozPiper','pt_BR-faber-medium');$('vozPiper').onchange=()=>store.set('vozPiper',$('vozPiper').value);
+$('piperBaixar').onclick=async()=>{const b=$('piperBaixar');b.disabled=true;vmsg('Preparando a voz…');
+ try{await piperPronta(piperVoz(),vmsg);vmsg('Voz pronta neste navegador. Toque em “Ouvir amostra da voz”.')}
+ catch(e){vmsg(noClaude?('Não deu certo: '+e.message):'Dentro do Claude o Piper não consegue baixar a voz. Use a versão hospedada.')}finally{b.disabled=false}};
+
+const AZ_PADRAO=[['pt-BR-AntonioNeural','Antonio · masculina'],['pt-BR-FranciscaNeural','Francisca · feminina'],['pt-BR-ThalitaNeural','Thalita · feminina'],['pt-BR-DonatoNeural','Donato · masculina'],['pt-BR-FabioNeural','Fabio · masculina'],['pt-BR-BrendaNeural','Brenda · feminina'],['pt-BR-HumbertoNeural','Humberto · masculina'],['pt-BR-JulioNeural','Julio · masculina'],['pt-BR-NicolauNeural','Nicolau · masculina'],['pt-BR-ValerioNeural','Valerio · masculina'],['pt-BR-ElzaNeural','Elza · feminina'],['pt-BR-GiovannaNeural','Giovanna · feminina'],['pt-BR-LeilaNeural','Leila · feminina'],['pt-BR-LeticiaNeural','Leticia · feminina'],['pt-BR-ManuelaNeural','Manuela · feminina'],['pt-BR-YaraNeural','Yara · feminina']];
+function preencheAz(vs){const sel=store.get('vozAz','pt-BR-AntonioNeural');$('vozAz').innerHTML=vs.map(v=>`<option value="${esc(v[0])}"${v[0]===sel?' selected':''}>${esc(v[1])}</option>`).join('')}
+preencheAz(store.get('azVozes',AZ_PADRAO));
+$('azKey').value=store.get('azKey','');$('azKey').addEventListener('change',()=>store.set('azKey',$('azKey').value.trim()));
+$('azReg').value=store.get('azReg','brazilsouth');$('azReg').onchange=()=>store.set('azReg',$('azReg').value);
+$('vozAz').onchange=()=>store.set('vozAz',$('vozAz').value);
+const azBase=()=>`https://${$('azReg').value}.tts.speech.microsoft.com/cognitiveservices`;
+$('azCarregar').onclick=async()=>{const k=$('azKey').value.trim();if(!k){vmsg('Cole a chave da Azure primeiro.');return}vmsg('Carregando vozes…');
+ try{const r=await fetch(azBase()+'/voices/list',{headers:{'Ocp-Apim-Subscription-Key':k}});if(r.status===401)throw new Error('chave ou região não conferem');if(!r.ok)throw new Error('Erro '+r.status);
+  const j=await r.json(),vs=j.filter(v=>v.Locale==='pt-BR'&&!/HD|Dragon/i.test(v.ShortName)).map(v=>[v.ShortName,`${v.LocalName||v.DisplayName} · ${v.Gender==='Male'?'masculina':'feminina'}${/Multilingual/i.test(v.ShortName)?' (multilíngue)':''}`]).sort((a,b)=>a[1].localeCompare(b[1]));
+  if(!vs.length)throw new Error('nenhuma voz em português nessa região');store.set('azVozes',vs);preencheAz(vs);store.set('vozAz',$('vozAz').value);vmsg(vs.length+' vozes em português carregadas.')}
+ catch(e){vmsg(noClaude?('Não consegui carregar: '+e.message):'Dentro do Claude a Azure fica bloqueada. Use a versão hospedada.')}};
+const xmlEsc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+async function azTTS(text,speed){const k=$('azKey').value.trim();if(!k)throw new Error('Cole a chave da Azure.');const v=$('vozAz').value;
+ const pct=Math.round((speed-1)*100),ssml=`<speak version="1.0" xml:lang="pt-BR"><voice name="${v}"><prosody rate="${pct>=0?'+':''}${pct}%">${xmlEsc(text)}</prosody></voice></speak>`;
+ for(let tent=0;;tent++){const r=await fetch(azBase()+'/v1',{method:'POST',headers:{'Ocp-Apim-Subscription-Key':k,'Content-Type':'application/ssml+xml','X-Microsoft-OutputFormat':'riff-24khz-16bit-mono-pcm'},body:ssml});
+  if(r.status===429&&tent<8){const w=(+r.headers.get('Retry-After')||5)*1000;status(`A Azure pediu uma pausa (limite do plano grátis). Continuando em ${Math.round(w/1000)} s…`);await new Promise(o=>setTimeout(o,w));continue}
+  if(r.status===401)throw new Error('chave ou região da Azure não conferem');if(r.status===403)throw new Error('a cota grátis do mês acabou ou o recurso está desativado');if(!r.ok)throw new Error('Erro '+r.status);
+  return decodifica(await r.arrayBuffer())}}
+
+/* motores que geram arquivo: faixa de velocidade nativa; o resto é feito pelo time-stretch */
+const MOTORES={
+ eleven:{nome:'ElevenLabs',faixa:[.7,1.2],tts:(t,s)=>elTTS(t,s),voz:()=>[elVoz(),$('elModelo').value,$('elEstab').value].join('|')},
+ piper:{nome:'Piper',faixa:[1,1],tts:t=>piperTTS(t),voz:()=>piperVoz()},
+ azure:{nome:'Azure',faixa:[.5,2],tts:(t,s)=>azTTS(t,s),voz:()=>$('azReg').value+'|'+$('vozAz').value}};
+const M=()=>MOTORES[motor];
+const apiVel=v=>{const f=M().faixa;return Math.max(f[0],Math.min(f[1],v))};
+const erroMotor=e=>noClaude?('Não deu certo: '+e.message):(motor==='piper'?'Dentro do Claude o Piper não consegue baixar a voz.':`Dentro do Claude a ${M().nome} fica bloqueada.`)+' Use a versão hospedada (seu link do GitHub).';
+
+
+/* sliders com campo numérico ao lado */
+function pareia(r){if(r.dataset.par)return;r.dataset.par=1;const k=+(r.dataset.k||1),u=r.dataset.u||'',f=v=>String(+(v*k).toFixed(2)).replace('.',',');
+ const w=document.createElement('div');w.className='par';r.parentNode.insertBefore(w,r);w.appendChild(r);
+ const n=document.createElement('input');n.type='text';n.inputMode='decimal';n.className='num';n.value=f(r.value);n.setAttribute('aria-label',(r.getAttribute('aria-label')||(r.labels&&r.labels[0]?r.labels[0].textContent:r.id))+', valor');
+ const sp=document.createElement('span');sp.className='u';sp.textContent=u;w.append(n,sp);
+ r.addEventListener('input',()=>{if(document.activeElement!==n)n.value=f(r.value)});
+ const aplica=()=>{let v=parseFloat(n.value.replace(',','.'));if(!isFinite(v))v=r.value*k;v=Math.min(+r.max,Math.max(+r.min,v/k));r.value=v;n.value=f(v);r.dispatchEvent(new Event('input',{bubbles:true}))};
+ n.addEventListener('change',aplica);n.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();n.blur()}})}
+['vel','pausa','lead','cauda','volN','volF','elEstab'].forEach(id=>{const el=$(id);el.value=store.get(id,el.value);el.addEventListener('input',()=>{store.set(id,el.value);if(id==='vel')conta();if(id==='volF')fundoMudou()});pareia(el)});
 
 /* ---------- 3. sons ---------- */
 const estado=store.get('sons',{chuva:{on:true,vol:.6}});
-const PRESETS=[['Chuva tranquila',{chuva:.6}],['Tempestade',{chuvaforte:.65,trovoes:.6}],['Cabana com lareira',{fogueira:.7,chuva:.35,vento:.2}],['Praia à noite',{ondas:.8,vento:.15,grilos:.1}],['Noite no campo',{grilos:.4,sapos:.35,coruja:.3,vento:.15}],['Amanhecer no riacho',{passaros:.35,riacho:.5}],['Gato no colo',{gato:.6,fogueira:.3}],['Só ruído marrom',{marrom:.6}]];
+const PRESETS=[['Chuva tranquila',{chuva:.6}],['Tempestade',{chuvaforte:.6,trovoes:1.2}],['Cabana com lareira',{fogueira:.7,chuva:.35,vento:.2}],['Praia à noite',{ondas:.8,vento:.15,grilos:.1}],['Noite no campo',{grilos:.4,sapos:.35,coruja:.3,vento:.15}],['Amanhecer no riacho',{passaros:.35,riacho:.5}],['Gato no colo',{gato:.6,fogueira:.3}],['Só ruído marrom',{marrom:.6}]];
 $('presets').innerHTML=PRESETS.map((p,i)=>`<button class="chip" data-p="${i}">${p[0]}</button>`).join('');
 $('presets').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;const p=PRESETS[b.dataset.p][1];SONS.forEach(s=>estado[s.id]={on:s.id in p,vol:p[s.id]||(estado[s.id]?.vol??.5)});salvaSons();desenhaSons()});
-function desenhaSons(){$('sons').innerHTML=SONS.map(s=>{const e=estado[s.id]||{on:false,vol:.5};return `<div class="som${e.on?' on':''}"><div class="top"><b>${s.nome}</b><button class="tg${e.on?' pri':''}" data-t="${s.id}" aria-pressed="${e.on}">${e.on?'Ligado':'Ligar'}</button></div><input type="range" min="0" max="1" step="0.05" value="${e.vol}" data-v="${s.id}" aria-label="Volume: ${s.nome}"></div>`}).join('')}
-function salvaSons(){store.set('sons',estado);fundoSujo=true;custo()}
-$('sons').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;const id=b.dataset.t;estado[id]=estado[id]||{vol:.5};estado[id].on=!estado[id].on;if(estado[id].on){status('Preparando '+SONS.find(s=>s.id===id).nome.toLowerCase()+'…');setTimeout(()=>{somBuf(SONS.find(s=>s.id===id));status('')},30)}salvaSons();desenhaSons()});
+const IVS=[[15,'Constantes (~15 s)'],[30,'Frequentes (~30 s)'],[60,'A cada ~1 min'],[180,'Esparsos (~3 min)'],[300,'Raros (~5 min)'],['x','A cada X minutos…']];
+const ESTILOS=[['var','Variados (perto, longe, seco, rolante…)'],['longe','Só distantes e rolantes'],['perto','Próximos e fortes']];
+function extraTrov(e){const iv=e.iv||60,pre=IVS.some(o=>o[0]===iv)&&!e.custom;return `<label for="trovEst" style="margin-top:8px">Estilo</label><select id="trovEst">${ESTILOS.map(o=>`<option value="${o[0]}"${(e.estilo||'var')===o[0]?' selected':''}>${o[1]}</option>`).join('')}</select>`+`<label for="trovIv" style="margin-top:8px">Frequência</label><select id="trovIv" data-iv="1">${IVS.map(o=>`<option value="${o[0]}"${(pre?o[0]===iv:o[0]==='x')?' selected':''}>${o[1]}</option>`).join('')}</select>
+ <div class="par${pre?' hidden':''}" id="trovX" style="margin-top:6px"><span class="u" style="min-width:0">a cada</span><input type="text" class="num" id="trovMin" inputmode="decimal" value="${String(+(iv/60).toFixed(2)).replace('.',',')}" aria-label="Minutos entre trovões"><span class="u">min</span></div>`}
+function desenhaSons(){$('sons').innerHTML=SONS.map(s=>{const e=estado[s.id]||{on:false,vol:.5};return `<div class="som${e.on?' on':''}${s.id==='trovoes'?' wide':''}"><div class="top"><b>${s.nome}</b><button class="tg${e.on?' pri':''}" data-t="${s.id}" aria-pressed="${e.on}">${e.on?'Ligado':'Ligar'}</button></div><input type="range" min="0" max="${s.vmax||1}" step="0.01" data-k="100" data-u="%" value="${e.vol}" data-v="${s.id}" aria-label="Volume: ${s.nome}">${s.id==='trovoes'?extraTrov(e):''}</div>`}).join('');$('sons').querySelectorAll('input[type=range]').forEach(pareia)}
+function salvaSons(){store.set('sons',estado);fundoMudou();custo()}
+$('sons').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;const id=b.dataset.t;estado[id]=estado[id]||{vol:.5};estado[id].on=!estado[id].on;desenhaSons();
+ const ligados=SONS.filter(s=>estado[s.id]?.on).map(s=>s.nome.toLowerCase());status(ligados.length?'Ligados juntos: '+ligados.join(', ')+'.':'Nenhum som ligado.');setTimeout(salvaSons,20)});
 $('sons').addEventListener('input',e=>{const id=e.target.dataset.v;if(!id)return;estado[id]=estado[id]||{on:false};estado[id].vol=+e.target.value;salvaSons()});
+$('sons').addEventListener('change',e=>{const t=estado.trovoes=estado.trovoes||{on:false,vol:.8};
+ if(e.target.id==='trovEst'){t.estilo=e.target.value;status('Trovões: '+e.target.selectedOptions[0].text.toLowerCase()+'. Preparando…');setTimeout(salvaSons,20);return}
+ if(e.target.id==='trovIv'){const v=e.target.value;if(v==='x'){t.custom=true;$('trovX').classList.remove('hidden');$('trovMin').focus();return}t.custom=false;t.iv=+v;$('trovX').classList.add('hidden');status('Trovões: '+e.target.selectedOptions[0].text.toLowerCase()+'. Preparando…');setTimeout(salvaSons,20)}
+ if(e.target.id==='trovMin'){let m=parseFloat(e.target.value.replace(',','.'));if(!isFinite(m))m=1;m=Math.min(10,Math.max(.2,m));e.target.value=String(m).replace('.',',');t.custom=true;t.iv=Math.round(m*60);status('Trovões a cada ~'+String(m).replace('.',',')+' min. Preparando…');setTimeout(salvaSons,20)}});
+$('sons').addEventListener('keydown',e=>{if(e.target.id==='trovMin'&&e.key==='Enter'){e.preventDefault();e.target.blur()}});
 desenhaSons();
-let meuBuf=null;$('meuVol').value=store.get('meuVol',.5);$('meuVol').oninput=()=>{store.set('meuVol',$('meuVol').value);fundoSujo=true};
+let meuBuf=null;$('meuVol').value=store.get('meuVol',.5);$('meuVol').oninput=()=>{store.set('meuVol',$('meuVol').value);fundoMudou()};pareia($('meuVol'));
 $('meuSom').onchange=async()=>{const f=$('meuSom').files[0];if(!f)return;status('Lendo seu som…');try{const Ctx=window.OfflineAudioContext||window.webkitOfflineAudioContext,ctx=new Ctx(1,SR,SR),ab=await f.arrayBuffer();
  const b=await new Promise((ok,no)=>{const p=ctx.decodeAudioData(ab,ok,no);if(p&&p.then)p.then(ok,no)});meuBuf=b.getChannelData(0).slice();let v=0;for(let i=0;i<meuBuf.length;i++)v+=meuBuf[i]*meuBuf[i];v=.11/Math.sqrt(v/meuBuf.length||1);for(let i=0;i<meuBuf.length;i++)meuBuf[i]*=v;
- $('meuNome').textContent=f.name;fundoSujo=true;status('Seu som entrou na mistura.')}catch(e){status('Não consegui ler esse arquivo de áudio.')}};
-function camadas(){const l=SONS.filter(s=>estado[s.id]?.on&&estado[s.id].vol>0).map(s=>({buf:somBuf(s),vol:estado[s.id].vol}));if(meuBuf&&+$('meuVol').value>0)l.push({buf:meuBuf,vol:+$('meuVol').value});return l}
+ $('meuNome').textContent=f.name;fundoMudou();status('Seu som entrou na mistura.')}catch(e){status('Não consegui ler esse arquivo de áudio.')}};
+function camadas(){const l=SONS.filter(s=>estado[s.id]?.on&&estado[s.id].vol>0).map(s=>({buf:somBuf(s,estado[s.id].iv||60,estado[s.id].estilo),vol:estado[s.id].vol}));if(meuBuf&&+$('meuVol').value>0)l.push({buf:meuBuf,vol:+$('meuVol').value});return l}
 const blobDe=parts=>new Blob(parts,{type:'audio/wav'});
-let fundoSujo=true,fundoURL=null;
+let fundoSujo=true,fundoURL=null,fundoT=null;
+/* se o fundo estiver tocando, refaz a mistura e continua do mesmo ponto */
+function fundoMudou(){fundoSujo=true;const a=$('fundoAudio');if(a.paused)return;clearTimeout(fundoT);fundoT=setTimeout(()=>{const t=a.currentTime,u=fundoLoop();if(!u){a.pause();status('Nenhum som ligado.');return}
+ a.src=u;a.addEventListener('loadedmetadata',()=>{try{a.currentTime=t%(a.duration||300)}catch(e){}},{once:true});a.play().catch(()=>{});status('Fundo atualizado.')},400)}
 function fundoLoop(){if(!fundoSujo&&fundoURL)return fundoURL;const ls=camadas();if(!ls.length)return null;
- const m=mixWav({narr:null,lead:0,tail:300,layers:ls,volN:1,volF:+$('volF').value,noFade:true});
+ const m=mixWav({narr:null,lead:0,tail:Math.max(300,...ls.filter(l=>l.buf.length%(300*SR)===0).map(l=>l.buf.length/SR)),layers:ls,volN:1,volF:+$('volF').value,noFade:true});
  /* sem fade: 300 s exatos para repetir sem emenda */
  if(fundoURL)URL.revokeObjectURL(fundoURL);fundoURL=URL.createObjectURL(blobDe(m.parts));fundoSujo=false;return fundoURL}
 function tocaFundo(){const u=fundoLoop();if(!u){status('Ligue pelo menos um som de fundo.');return false}const a=$('fundoAudio');if(a.src!==u)a.src=u;a.play().catch(()=>status('Toque de novo para liberar o som.'));return true}
@@ -443,10 +934,10 @@ $('ouvirVoz').onclick=async()=>{const amostra='Boa noite. Respire fundo, relaxe 
   const u=fala(amostra,()=>{});u.onerror=e=>vmsg('O iPhone não conseguiu falar ('+(e.error||'erro')+'). Tente escolher outra voz.');u.onend=()=>vmsg('');return}
  /* destrava o áudio dentro do toque, antes da espera da rede (exigência do iOS) */
  try{am.src='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAwF0AAIC7AAACABAAZGF0YQAAAAA=';am.play().catch(()=>{})}catch(e){}
- vmsg('Gerando a amostra na ElevenLabs…');try{const v=+$('vel').value,api=Math.max(.7,Math.min(1.2,v));let x=await elTTS(amostra,api);x=stretch(x,v/api);const m=mixWav({narr:x,lead:0,tail:0,layers:[],volN:1,volF:0});
+ vmsg(`Gerando a amostra (${M().nome})…`);try{const v=+$('vel').value,api=apiVel(v);let x=await M().tts(amostra,api);x=stretch(x,v/api);const m=mixWav({narr:x,lead:0,tail:0,layers:[],volN:1,volF:0});
   am.src=URL.createObjectURL(blobDe(m.parts));am.classList.remove('hidden');
   am.play().then(()=>vmsg('Tocando a amostra.')).catch(()=>vmsg('Amostra pronta: toque no ▶ do player logo abaixo.'))}
- catch(e){vmsg(noClaude?('Não deu certo: '+e.message):'Dentro do Claude a ElevenLabs fica bloqueada. Use o seu link do GitHub.')}};
+ catch(e){vmsg(erroMotor(e))}};
 function pararVivo(){if(vivo){vivo.stop=true;vivo=null}if(synth)synth.cancel();$('fundoAudio').pause();clearTimeout(timerId);status('Parado.')}
 $('pararVivo').onclick=pararVivo;
 $('tocarVivo').onclick=()=>{pararVivo();const ps=paragrafos($('texto').value);if(!ps.length&&!camadas().length){status('Escreva uma história ou ligue um som.');return}
@@ -455,29 +946,141 @@ $('tocarVivo').onclick=()=>{pararVivo();const ps=paragrafos($('texto').value);if
  const lead=+$('lead').value*1000;if(ps.length&&synth){if(lead>0){synth.speak(new SpeechSynthesisUtterance(' '));setTimeout(prox,lead)}else prox()}
  const tm=+$('timer').value;if(tm)timerId=setTimeout(pararVivo,tm*60000)};
 
-/* ---------- 4. gerar arquivo (ElevenLabs) ---------- */
+/* ---------- 4. gerar arquivo (ElevenLabs, Piper, Azure) ---------- */
 const narrCache={};let ultimo=null;
-function custo(){if(motor!=='eleven'){$('custo').textContent='';return}const c=$('texto').value.length;$('custo').textContent=c?`≈ ${c.toLocaleString('pt-BR')} créditos ElevenLabs (grátis se a narração já foi gerada)`:''}
-$('montar').onclick=async()=>{const b=$('montar');const ps=paragrafos($('texto').value);if(!ps.length){status('Escreva ou gere uma história primeiro.');return}
- b.disabled=true;$('baixar').classList.add('hidden');try{
-  const v=+$('vel').value,api=Math.max(.7,Math.min(1.2,v)),pausa=Math.floor(+$('pausa').value*SR),pedacos=[];
-  for(let i=0;i<ps.length;i++){const key=[elVoz(),$('elModelo').value,$('elEstab').value,api,ps[i]].join('|');
-   if(!narrCache[key]){status(`Gerando a voz: parágrafo ${i+1} de ${ps.length}`,i/ps.length*.7);narrCache[key]=await elTTS(ps[i],api)}
+function custo(){const c=$('texto').value.length,n=c.toLocaleString('pt-BR');$('custo').textContent=!c?'':motor==='eleven'?`≈ ${n} créditos ElevenLabs (grátis se a narração já foi gerada)`:motor==='azure'?`≈ ${n} caracteres da cota grátis da Azure (500 mil por mês; grátis se a narração já foi gerada)`:motor==='piper'?'Piper: grátis e sem limite. A voz é gerada no próprio aparelho; textos longos levam alguns minutos.':''}
+const SIL='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAwF0AAIC7AAACABAAZGF0YQAAAAA=';
+async function gera(previa){const b=previa?$('previa'):$('montar');let ps=paragrafos($('texto').value);if(!ps.length){status('Escreva ou gere uma história primeiro.');return}
+ const pl=$('player');try{pl.src=SIL;pl.play().catch(()=>{})}catch(e){} /* libera o som no iOS dentro do toque */
+ if(previa){const q=[];let c=0;for(const p of ps){q.push(p);c+=p.length;if(c>=450)break}ps=q}
+ $('previa').disabled=$('montar').disabled=true;$('baixar').classList.add('hidden');try{
+  const v=+$('vel').value,api=apiVel(v),pausa=Math.floor(+$('pausa').value*SR),pedacos=[];
+  for(let i=0;i<ps.length;i++){const key=[motor,M().voz(),api,ps[i]].join('|');
+   if(!narrCache[key]){status(`Gerando a voz: parágrafo ${i+1} de ${ps.length}`,i/ps.length*.7);narrCache[key]=await M().tts(ps[i],api)}
    status(`Ajustando a velocidade: parágrafo ${i+1} de ${ps.length}`,(i+1)/ps.length*.7);await tick();pedacos.push(stretch(narrCache[key],v/api))}
   let tot=0;pedacos.forEach(p=>tot+=p.length+pausa);const narr=new Float32Array(tot);let o=0;pedacos.forEach(p=>{narr.set(p,o);o+=p.length+pausa});
   status('Misturando com o fundo…',.8);await tick();
-  const m=mixWav({narr,lead:+$('lead').value,tail:+$('cauda').value*60,layers:camadas(),volN:+$('volN').value,volF:+$('volF').value,fadeOut:120});
+  const m=mixWav({narr,lead:+$('lead').value,tail:previa?15:+$('cauda').value*60,layers:camadas(),volN:+$('volN').value,volF:+$('volF').value,fadeOut:previa?8:120});
   const nome=(($('titulo').value.trim()||'historia').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^\w]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'historia');
-  ultimo={nome,parts:m.parts};const a=$('player');if(a.src)URL.revokeObjectURL(a.src);a.src=URL.createObjectURL(blobDe(m.parts));a.classList.remove('hidden');$('baixar').classList.remove('hidden');
-  const mb=m.parts.reduce((s,p)=>s+p.byteLength,0)/1048576;status(`Pronto: ${Math.round(m.seconds/60)} min, ${mb.toFixed(0)} MB. Toque no play ou baixe.`,1)}
- catch(e){status(noClaude?('Não deu certo: '+e.message):'Dentro do Claude a ElevenLabs fica bloqueada. Use a versão hospedada.',0)}finally{b.disabled=false}};
+  if(pl.src.startsWith('blob:'))URL.revokeObjectURL(pl.src);pl.src=URL.createObjectURL(blobDe(m.parts));pl.classList.remove('hidden');
+  if(previa){ultimo=null}else{ultimo={nome,parts:m.parts};$('baixar').classList.remove('hidden')}
+  const mb=m.parts.reduce((s,p)=>s+p.byteLength,0)/1048576,dur=m.seconds<90?Math.round(m.seconds)+' s':Math.round(m.seconds/60)+' min';
+  status(previa?`Prévia pronta (${dur}). Ajuste voz, velocidade ou sons e ouça de novo; quando gostar, gere o áudio completo.`:`Pronto: ${dur}, ${mb.toFixed(0)} MB. Ouça aqui; baixe só se quiser.`,1);
+  pl.play().catch(()=>status($('status').textContent+' Toque no ▶ do player.'))}
+ catch(e){status(erroMotor(e),0)}finally{$('previa').disabled=$('montar').disabled=false}}
+$('previa').onclick=()=>gera(true);$('montar').onclick=()=>gera(false);
+
+/* ---------- 4. arquivo com vozes do iPhone (narração feita no app Atalhos) ---------- */
+let narrIph=null;
+$('copiarTxt').onclick=async()=>{const t=paragrafos($('texto').value).join('\n\n');if(!t){$('copiarMsg').textContent='Escreva ou gere uma história primeiro.';return}
+ try{await navigator.clipboard.writeText(t);$('copiarMsg').textContent='Copiado. Agora rode o atalho.'}
+ catch(e){const ta=$('texto');ta.focus();ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(_){}
+  $('copiarMsg').textContent=ok?'Copiado. Agora rode o atalho.':'Não consegui copiar sozinho: o texto ficou selecionado lá em cima, toque em Copiar.'}};
+$('narrArq').onchange=async()=>{const f=$('narrArq').files[0];narrIph=null;$('narrNome').textContent='';if(!f)return;$('narrNome').textContent='Lendo '+f.name+'…';
+ try{const Ctx=window.OfflineAudioContext||window.webkitOfflineAudioContext,ctx=new Ctx(1,SR,SR),ab=await f.arrayBuffer();
+  const b=await new Promise((ok,no)=>{const p=ctx.decodeAudioData(ab,ok,no);if(p&&p.then)p.then(ok,no)});const x=b.getChannelData(0).slice();
+  let pk=0;for(let i=0;i<x.length;i++)pk=Math.max(pk,Math.abs(x[i]));if(pk>0){const g=.8/pk;for(let i=0;i<x.length;i++)x[i]*=g}
+  narrIph=x;const s=x.length/SR;$('narrNome').textContent='Narração: '+f.name+' ('+(s<90?Math.round(s)+' s':Math.round(s/60)+' min')+')'}
+ catch(e){$('narrNome').textContent='Não consegui ler esse arquivo. Use o que o atalho salvou (.m4a).'}};
+$('montarIph').onclick=async()=>{const b=$('montarIph'),pl=$('player'),ls=camadas();if(!narrIph&&!ls.length){status('Escolha a narração ou ligue pelo menos um som de fundo.');return}
+ try{pl.src=SIL;pl.play().catch(()=>{})}catch(e){}
+ b.disabled=true;$('baixar').classList.add('hidden');try{status('Misturando com o fundo…',.5);await tick();
+  const lead=+$('lead').value,tail=+$('cauda').value*60;
+  const m=mixWav({narr:narrIph,lead,tail:narrIph?tail:Math.max(60-lead,tail),layers:ls,volN:+$('volN').value,volF:+$('volF').value,fadeOut:120});
+  const nome=(($('titulo').value.trim()||'historia').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^\w]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'historia')+(narrIph?'':'-fundo');
+  if(pl.src.startsWith('blob:'))URL.revokeObjectURL(pl.src);pl.src=URL.createObjectURL(blobDe(m.parts));pl.classList.remove('hidden');
+  ultimo={nome,parts:m.parts};$('baixar').classList.remove('hidden');
+  const mb=m.parts.reduce((s,p)=>s+p.byteLength,0)/1048576,dur=m.seconds<90?Math.round(m.seconds)+' s':Math.round(m.seconds/60)+' min';
+  status(`Pronto: ${dur}, ${mb.toFixed(0)} MB. Ouça no player e toque em “Baixar áudio”.`,1)}
+ catch(e){status('Não deu certo: '+(e.message||e),0)}finally{b.disabled=false}};
 $('baixar').onclick=async()=>{if(!ultimo)return;const d=await cap('downloads');
  if(d){status('Preparando o arquivo…');await tick();try{await d.save({filename:ultimo.nome+'.zip',data:new Blob(zipParts(ultimo.nome+'.wav',ultimo.parts))});status('Arquivo salvo (um .zip com o .wav dentro; no iPhone, toque nele no app Arquivos para abrir).')}catch(e){status(e.code==='declined'?'Download cancelado.':'Não foi possível baixar aqui.')}return}
  const a=document.createElement('a');a.href=$('player').src;a.download=ultimo.nome+'.wav';document.body.appendChild(a);a.click();a.remove();status('Baixando… no iPhone o arquivo vai para o app Arquivos › Downloads.')};
 
 /* início */
-const r=store.get('rasc',null);if(r){$('titulo').value=r.t;$('texto').value=r.x}else{$('titulo').value=EXEMPLOS[1].t;$('texto').value=EXEMPLOS[1].x}
+function aplicaRasc(r){$('titulo').value=r.t;$('texto').value=r.x;atualId=r.id||null;setFontes(r.f||'');if(atualId){const it=libItens().find(s=>s.id===atualId);if(it){const pa=pastas().find(p=>p.id===it.pasta);$('hTipo').value=pa&&pa.tipo!=='pasta'?pa.tipo:'unico';preenchePastaSel(it.pasta||'');$('hTemp').value=it.temp||1;$('hEp').value=it.ep||1}}tipoUI();marcaAtual();conta()}
+const r=store.get('rasc',null);if(r)aplicaRasc(r);else{$('titulo').value=EXEMPLOS[1].t;$('texto').value=EXEMPLOS[1].x;preenchePastaSel('');tipoUI()}
+storeCarregado.then(mud=>{if(!mud.length)return;if(mud.includes('rasc')){const r2=store.get('rasc',null);if(r2&&$('texto').value===EXEMPLOS[1].x)aplicaRasc(r2)}lib();desenhaSerie();if(typeof atualizaHome==='function')atualizaHome()});
 setMotor(motor);conta();lib();
+
+/* ---------- navegação de app: tela inicial, telas que deslizam, player fixo ---------- */
+var navPronto=false;
+const EMO_SOM={chuva:'💧',chuvaforte:'🌧️',trovoes:'⛈️',fogueira:'🔥',ondas:'🌊',vento:'🍃',riacho:'🏞️',grilos:'🦗',sapos:'🐸',coruja:'🦉',passaros:'🐦',gato:'🐈',marrom:'🟤',rosa:'🩷'};
+const EMO_PRESET=['🌧️','⛈️','🔥','🌊','🦗','🏞️','🐈','🟤'];
+const EMO_TEMA={'Direito':'⚖️','Espaço':'🚀','História':'📜','Biologia':'🧬','Física':'⚛️','Química':'🧪','Astronomia':'🔭','Geologia':'🪨','Oceanos':'🐋','Natureza':'🌿','Animais':'🦊','Botânica':'🌱','Corpo humano':'🫀','Medicina':'🩺','Psicologia':'🧠','Filosofia':'💭','Mitologia':'🐉','Religiões':'🕯️','Arqueologia':'🏺','Antiguidade':'🗿','Idade Média':'🏰','Geografia':'🗺️','Viagens e culturas':'🧭','Arte':'🎨','Música':'🎻','Literatura':'📖','Matemática':'➗','Tecnologia':'💻','Economia':'💰','Arquitetura':'🏛️','Culinária':'🍲','Esportes':'⚽','Fantasia':'🧚','Ficção científica':'👽'};
+const ce=e=>e?`<span class="ce" aria-hidden="true">${e}</span>`:'';
+/* figuras nos sons, presets e temas */
+const _desenhaSons=desenhaSons;
+desenhaSons=function(){_desenhaSons();$('sons').querySelectorAll('.som').forEach(d=>{const id=d.querySelector('[data-t]')?.dataset.t,b=d.querySelector('.top b');if(id&&b&&!b.querySelector('.ce'))b.insertAdjacentHTML('afterbegin',ce(EMO_SOM[id]))});atualizaHome()};
+desenhaSons();
+const presetsHTML=()=>PRESETS.map((p,i)=>`<button class="chip" data-p="${i}">${ce(EMO_PRESET[i])}${p[0]}</button>`).join('');
+$('presets').innerHTML=presetsHTML();$('hPresets').innerHTML=presetsHTML();
+$('hPresets').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;const p=PRESETS[b.dataset.p][1];SONS.forEach(s=>estado[s.id]={on:s.id in p,vol:p[s.id]||(estado[s.id]?.vol??.5)});salvaSons();desenhaSons();
+ if(tocaFundo()){status('Tocando o fundo: '+PRESETS[b.dataset.p][0]+'.');miniAtualiza()}});
+const _desenhaTemas=desenhaTemas;
+desenhaTemas=function(){_desenhaTemas();$('iaTemas').querySelectorAll('[data-tema]').forEach(b=>{if(!b.querySelector('.ce'))b.insertAdjacentHTML('afterbegin',ce(EMO_TEMA[b.dataset.tema]))})};
+desenhaTemas();
+const MOTOR_NOME={iphone:'iPhone',piper:'Piper',azure:'Azure',eleven:'ElevenLabs'},MOTOR_EMO={iphone:'📱',piper:'🪶',azure:'☁️',eleven:'🎙️'};
+document.querySelectorAll('#motor [data-m]').forEach(b=>b.insertAdjacentHTML('afterbegin',ce(MOTOR_EMO[b.dataset.m])));
+
+const TELAS=['home','historia','biblioteca','ia','voz','sons','ouvir','ajuda'];let navegou=false;
+function mostra(id){if(!TELAS.includes(id))id='home';document.querySelectorAll('.tela').forEach(t=>t.classList.toggle('on',t.id==='t-'+id));window.scrollTo(0,0);atualizaHome()}
+function irPara(id){navegou=true;if(location.hash.slice(1)!==id)location.hash=id;else mostra(id)}
+window.addEventListener('hashchange',()=>mostra(location.hash.slice(1)));
+document.addEventListener('click',e=>{const v=e.target.closest('.voltar');if(v){if(navegou&&history.length>1)history.back();else irPara('home');return}
+ const b=e.target.closest('[data-ir]');if(b)irPara(b.dataset.ir)});
+/* abrir da biblioteca, dos exemplos ou de um episódio leva para Ouvir */
+[['lib','[data-a="abrir"]'],['exemplos','[data-i]'],['iaSerieLista','[data-ep]']].forEach(([id,sel])=>$(id).addEventListener('click',e=>{if(e.target.closest(sel))setTimeout(()=>irPara('ouvir'),0)}));
+
+function saudacao(){const h=new Date().getHours();return h<5||h>=18?'Boa noite':h<12?'Bom dia':'Boa tarde'}
+function nomeVoz(){if(motor==='iphone'){const v=vozIph();return v?v.name:'voz do iPhone'}if(motor==='piper')return $('vozPiper').selectedOptions[0]?.text.split(' · ')[0]||'';if(motor==='azure')return $('vozAz').selectedOptions[0]?.text.split(' · ')[0]||'';return $('vozEl').selectedOptions[0]?.text.split(' · ')[0]||'escolha a voz'}
+function atualizaHome(){if(!navPronto)return;$('saudacao').textContent=saudacao();
+ const t=$('titulo').value.trim(),w=($('texto').value.match(/\S+/g)||[]).length,min=Math.round(w/130/(+$('vel').value||1));
+ $('hCont').textContent=t||(w?'Sem título':'Sem história ainda');$('hContInfo').textContent=w?`cerca de ${min<1?'1':min} min · ${MOTOR_NOME[motor]}`:'Crie uma com a IA ou escreva a sua';
+ $('agTit').textContent=t||(w?'Sem título':'Nenhuma história aberta');$('agInfo').textContent=w?`${w} palavras · cerca de ${min<1?'1':min} min narrados`:'Escreva, abra da biblioteca ou crie com a IA';
+ const sr=store.get('serie',null);$('hSerie').classList.toggle('hidden',!sr);if(sr){$('hSerieK').textContent=sr.epsT?'Série com temporadas':'Minissérie';$('hSerieT').textContent=sr.titulo;$('hSerieInfo').textContent=`${sr.feitos} de ${sr.eps.length} episódios prontos`}
+ $('hLib').textContent=(n=>n?`${n} ${n>1?'histórias salvas':'história salva'}`:'suas histórias')(store.get('lib',[]).length);
+ $('hVoz').textContent=`${MOTOR_NOME[motor]} · ${nomeVoz()}`;
+ const on=SONS.filter(s=>estado[s.id]?.on);$('hSons').textContent=on.length?on.slice(0,3).map(s=>EMO_SOM[s.id]+' '+s.nome.split(' ')[0]).join(', ')+(on.length>3?'…':''):'nenhum ligado';
+ miniAtualiza()}
+['titulo','texto'].forEach(id=>$(id).addEventListener('input',atualizaHome));
+['vozIph','vozPiper','vozAz','vozEl'].forEach(id=>$(id).addEventListener('change',atualizaHome));
+$('motor').addEventListener('click',()=>setTimeout(atualizaHome,0));
+
+/* player fixo */
+const PLAY='M8 5v14l11-7z',PAUSE='M7 5h4v14H7zM13 5h4v14h-4z';
+const _pl=$('player'),_fa=$('fundoAudio');
+const plPronto=()=>_pl.src.startsWith('blob:');
+function tocando(){return !!vivo||!!(synth&&synth.speaking)||(plPronto()&&!_pl.paused&&!_pl.ended)||!_fa.paused}
+function pararTudo(){pararVivo();_pl.pause();_fa.pause();miniAtualiza()}
+const mmss=x=>{x=Math.max(0,Math.floor(x||0));const h=Math.floor(x/3600),m=Math.floor(x%3600/60),s=String(x%60).padStart(2,'0');return h?`${h}:${String(m).padStart(2,'0')}:${s}`:`${m}:${s}`};
+function miniAtualiza(){if(!navPronto)return;const on=tocando(),t=$('titulo').value.trim();
+ $('mIco').setAttribute('d',on?PAUSE:PLAY);$('mPlay').setAttribute('aria-label',on?'Parar':'Tocar');
+ $('mTit').textContent=t||(($('texto').value.trim())?'Sem título':'Nenhuma história');
+ let sub,pr=0;
+ if(plPronto()&&isFinite(_pl.duration)&&_pl.duration>0&&(on||_pl.currentTime>0)){sub=`${mmss(_pl.currentTime)} / ${mmss(_pl.duration)}`;pr=_pl.currentTime/_pl.duration}
+ else if(vivo){sub=$('status').textContent||'Narrando ao vivo';pr=parseFloat($('prog').style.width)/100||0}
+ else if(!_fa.paused)sub='Só o fundo tocando';
+ else sub=motor==='iphone'?'Toque ▶ para narrar ao vivo':plPronto()?'Áudio pronto':'Toque para montar o áudio';
+ if(sleepFim)sub+=' · dorme em '+Math.max(1,Math.ceil((sleepFim-Date.now())/60000))+' min';
+ $('mSub').textContent=sub;$('mProg').style.width=Math.round(pr*100)+'%'}
+$('mPlay').onclick=()=>{if(tocando()){pararTudo();return}
+ if(motor==='iphone'){$('tocarVivo').click()}
+ else if(plPronto()){_pl.play().catch(()=>{})}
+ else{irPara('ouvir');status('Gere a prévia ou o áudio completo para tocar.')}
+ setTimeout(miniAtualiza,300)};
+['play','pause','ended','timeupdate','loadedmetadata'].forEach(ev=>{_pl.addEventListener(ev,miniAtualiza);_fa.addEventListener(ev,miniAtualiza)});
+setInterval(miniAtualiza,1000);
+/* timer para dormir: cada toque passa para o próximo tempo */
+const TIMERS=[0,15,30,45,60];let sleepIdx=0,sleepT=null,sleepFim=0;
+$('mTimer').onclick=()=>{sleepIdx=(sleepIdx+1)%TIMERS.length;const m=TIMERS[sleepIdx];clearTimeout(sleepT);sleepFim=0;
+ $('timer').value=String(m);$('mTimerTx').textContent=m?m:'';$('mTimer').classList.toggle('on',!!m);$('mTimer').setAttribute('aria-label','Timer para dormir: '+(m?m+' minutos':'desligado'));
+ if(m){sleepFim=Date.now()+m*60000;sleepT=setTimeout(()=>{sleepFim=0;sleepIdx=0;$('mTimerTx').textContent='';$('mTimer').classList.remove('on');pararTudo();status('Timer: tudo parado. Boa noite.')},m*60000)}
+ miniAtualiza()};
+$('timer').addEventListener('change',()=>{const m=+$('timer').value;sleepIdx=Math.max(0,TIMERS.indexOf(m))-1;$('mTimer').click()});
+
+navPronto=true;mostra(location.hash.slice(1));
+
 }
 </script>
 </body>
