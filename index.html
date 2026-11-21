@@ -135,6 +135,8 @@ details{margin-top:10px}summary{cursor:pointer;color:var(--acc2);font-weight:600
 <label for="pausa">Pausa entre parágrafos <span class="val" id="pausaV"></span></label>
 <input type="range" id="pausa" min="0" max="6" step="0.5" value="1.5" style="width:100%">
 <div class="row" style="margin-top:12px"><button id="ouvirVoz">Ouvir amostra da voz</button></div>
+<p class="note" id="vozMsg" aria-live="polite"></p>
+<audio id="amostra" controls class="hidden"></audio>
 </section>
 
 <section id="s3">
@@ -390,10 +392,10 @@ $('elModelo').value=store.get('elModelo','eleven_multilingual_v2');$('elModelo')
 function preencheEl(vs){const sel=store.get('vozEl','');$('vozEl').innerHTML=vs.map(v=>{const l=v.labels||{},d=[l.gender==='male'?'masc.':l.gender==='female'?'fem.':'',l.accent,l.age,l.description||l.descriptive].filter(Boolean).join(', ');return `<option value="${esc(v.voice_id)}"${v.voice_id===sel?' selected':''}>${esc(v.name)}${d?' · '+esc(d):''}</option>`}).join('')}
 preencheEl(store.get('elVozes',[]));if(!store.get('elVozes',[]).length)$('vozEl').innerHTML='<option value="">Carregue as vozes primeiro</option>';
 $('vozEl').onchange=()=>store.set('vozEl',$('vozEl').value);
-$('elCarregar').onclick=async()=>{const k=$('elKey').value.trim();if(!k){status('Cole a chave da ElevenLabs primeiro.');return}status('Carregando vozes…');
+$('elCarregar').onclick=async()=>{const k=$('elKey').value.trim();if(!k){vmsg('Cole a chave da ElevenLabs primeiro.');return}vmsg('Carregando vozes…');
  try{const r=await fetch('https://api.elevenlabs.io/v1/voices',{headers:{'xi-api-key':k}});const j=await r.json();if(!r.ok)throw new Error(j.detail?.message||('Erro '+r.status));
-  const vs=j.voices.map(v=>({voice_id:v.voice_id,name:v.name,labels:v.labels}));store.set('elVozes',vs);preencheEl(vs);store.set('vozEl',$('vozEl').value);status(vs.length+' vozes carregadas.')}
- catch(e){status(noClaude?('Não consegui carregar: '+e.message):'Dentro do Claude a ElevenLabs fica bloqueada. Use a versão hospedada.')}};
+  const vs=j.voices.map(v=>({voice_id:v.voice_id,name:v.name,labels:v.labels}));store.set('elVozes',vs);preencheEl(vs);store.set('vozEl',$('vozEl').value);vmsg(vs.length+' vozes carregadas.')}
+ catch(e){vmsg(noClaude?('Não consegui carregar: '+e.message):'Dentro do Claude a ElevenLabs fica bloqueada. Use a versão hospedada.')}};
 const elVoz=()=>$('vozElId').value.trim()||$('vozEl').value;
 async function elTTS(text,speed){const k=$('elKey').value.trim();if(!k)throw new Error('Cole a chave da ElevenLabs.');const v=elVoz();if(!v)throw new Error('Escolha uma voz.');
  const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(v)}?output_format=mp3_44100_128`,{method:'POST',headers:{'xi-api-key':k,'content-type':'application/json'},
@@ -434,10 +436,17 @@ $('pararFundo').onclick=()=>{$('fundoAudio').pause();status('')};
 /* ---------- 4. ao vivo (vozes do iPhone) ---------- */
 let vivo=null,timerId=null;
 function fala(txt,onend){const u=new SpeechSynthesisUtterance(txt),v=vozIph();if(v){u.voice=v;u.lang=v.lang}else u.lang='pt-BR';u.rate=Math.min(2.5,+$('vel').value);u.onend=onend;u.onerror=onend;synth.speak(u);return u}
-$('ouvirVoz').onclick=async()=>{const amostra='Boa noite. Respire fundo, relaxe os ombros, e deixe a história te levar devagar.';
- if(motor==='iphone'){if(!synth){status('Este navegador não fala.');return}synth.cancel();fala(amostra,()=>{});return}
- status('Gerando amostra…',0);try{const v=+$('vel').value,api=Math.max(.7,Math.min(1.2,v));let x=await elTTS(amostra,api);x=stretch(x,v/api);const m=mixWav({narr:x,lead:0,tail:0,layers:[],volN:1,volF:0});
-  const a=$('player');a.src=URL.createObjectURL(blobDe(m.parts));a.classList.remove('hidden');status('Amostra pronta: toque no play.',1)}catch(e){status(e.message)}};
+const vmsg=t=>{$('vozMsg').textContent=t||''};
+$('ouvirVoz').onclick=async()=>{const amostra='Boa noite. Respire fundo, relaxe os ombros, e deixe a história te levar devagar.',am=$('amostra');
+ if(motor==='iphone'){if(!synth){vmsg('Este navegador não tem vozes.');return}if(synth.speaking||synth.pending)synth.cancel();
+  vmsg('Falando… Se não ouvir nada: confira se o iPhone não está no modo silencioso (chave na lateral) e se o volume está alto.');
+  const u=fala(amostra,()=>{});u.onerror=e=>vmsg('O iPhone não conseguiu falar ('+(e.error||'erro')+'). Tente escolher outra voz.');u.onend=()=>vmsg('');return}
+ /* destrava o áudio dentro do toque, antes da espera da rede (exigência do iOS) */
+ try{am.src='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAwF0AAIC7AAACABAAZGF0YQAAAAA=';am.play().catch(()=>{})}catch(e){}
+ vmsg('Gerando a amostra na ElevenLabs…');try{const v=+$('vel').value,api=Math.max(.7,Math.min(1.2,v));let x=await elTTS(amostra,api);x=stretch(x,v/api);const m=mixWav({narr:x,lead:0,tail:0,layers:[],volN:1,volF:0});
+  am.src=URL.createObjectURL(blobDe(m.parts));am.classList.remove('hidden');
+  am.play().then(()=>vmsg('Tocando a amostra.')).catch(()=>vmsg('Amostra pronta: toque no ▶ do player logo abaixo.'))}
+ catch(e){vmsg(noClaude?('Não deu certo: '+e.message):'Dentro do Claude a ElevenLabs fica bloqueada. Use o seu link do GitHub.')}};
 function pararVivo(){if(vivo){vivo.stop=true;vivo=null}if(synth)synth.cancel();$('fundoAudio').pause();clearTimeout(timerId);status('Parado.')}
 $('pararVivo').onclick=pararVivo;
 $('tocarVivo').onclick=()=>{pararVivo();const ps=paragrafos($('texto').value);if(!ps.length&&!camadas().length){status('Escreva uma história ou ligue um som.');return}
