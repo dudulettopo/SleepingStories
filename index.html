@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Histórias para Dormir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: sereno, noturno, poucas cores, muito ar.
+   IDEA: um rádio de cabeceira numa noite de chuva — a mesa de mixagem é o próprio objeto.
+   PICTURE: lua baixa sobre o horizonte com chuva fina; abaixo, o editor e o mixer.
+   COLOUR and TYPE: tinta azul-noite, papel lunar, um acento coral; Newsreader nos títulos, Figtree no texto.
+   LAYOUT: coluna única calma, seções numeradas pelo fluxo de uso, controles grandes para o polegar. */
+:root{color-scheme:dark;--bg:#0d1424;--panel:#141d33;--line:#25304d;--ink:#ece6da;--mute:#a3aabb;--moon:#e6dfcc;--acc:#f29c84;--acc2:#7fa8c9}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif;overflow-x:clip}
+h1,h2{font-family:Newsreader,Georgia,serif;font-weight:600;line-height:1.05;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,6vw,48px)}h2{font-size:26px;margin-bottom:6px}
+.wrap{max-width:780px;margin:0 auto;padding:0 max(4vw,16px) 80px}
+header{position:relative;height:230px;overflow:hidden;margin-bottom:8px}
+header svg{position:absolute;inset:0;width:100%;height:100%}
+header .t{position:absolute;left:max(4vw,16px);bottom:22px;right:16px;max-width:780px}
+header p{margin:6px 0 0;color:var(--mute)}
+section{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin:16px 0}
+.sub{color:var(--mute);margin:0 0 14px;font-size:15px}
+label{display:block;font-size:14px;color:var(--mute);margin:12px 0 4px}
+input[type=text],input[type=password],select,textarea{width:100%;font:16px Figtree,sans-serif;color:var(--ink);background:#0f172b;border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+textarea{min-height:240px;line-height:1.6;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--acc2);outline-offset:2px}
+button{font:600 15px Figtree,sans-serif;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:#1b2642;color:var(--ink);cursor:pointer}
+button.pri{background:var(--acc);border-color:var(--acc);color:#2a1410}
+button:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:38px;padding:0 14px;font-weight:500}
+.chip.on{background:var(--moon);color:#1a1d29;border-color:var(--moon)}
+.sons{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px}
+.som{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:#10192e}
+.som.on{border-color:var(--acc2);background:#132241}
+.som .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.som b{font-weight:600;font-size:15px}
+.som input[type=range]{width:100%;margin-top:6px}
+.tg{min-height:34px;padding:0 12px;font-size:13px}
+input[type=range]{accent-color:var(--acc);height:28px}
+.val{font-variant-numeric:tabular-nums;color:var(--moon);font-weight:600;white-space:nowrap}
+.note{font-size:14px;color:var(--mute);margin:8px 0 0}
+.warn{font-size:14px;color:#f4c9a8;margin:8px 0 0}
+.bar{height:8px;background:#0f172b;border-radius:9px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .2s}
+audio{width:100%;margin-top:14px}
+.lib{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.lib div{display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:6px}
+.lib span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+details{margin-top:10px}summary{cursor:pointer;color:var(--acc2);font-weight:600;min-height:32px}
+.hidden{display:none!important}
+@media(max-width:600px){.grid2{grid-template-columns:minmax(0,1fr)}header{height:200px}}
+@media(prefers-reduced-motion:reduce){.rain{animation:none!important}}
+@keyframes fall{to{transform:translateY(40px)}}
+.rain{animation:fall 1.6s linear infinite}
+</style>
+</head>
+<body>
+<header>
+<svg viewBox="0 0 800 230" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+<defs><radialGradient id="g" cx="70%" cy="40%" r="45%"><stop offset="0" stop-color="#2a3a63"/><stop offset="1" stop-color="#0d1424"/></radialGradient>
+<radialGradient id="m" cx="40%" cy="35%"><stop offset="0" stop-color="#fbf6e8"/><stop offset="1" stop-color="#d6cdb5"/></radialGradient></defs>
+<rect width="800" height="230" fill="url(#g)"/>
+<circle cx="600" cy="92" r="70" fill="#e6dfcc" opacity=".08"/>
+<circle cx="600" cy="92" r="44" fill="url(#m)"/>
+<circle cx="586" cy="80" r="7" fill="#c9bfa4" opacity=".35"/><circle cx="612" cy="104" r="5" fill="#c9bfa4" opacity=".4"/>
+<g class="rain" stroke="#7fa8c9" stroke-width="1.2" opacity=".35">
+<path d="M80 -20l-8 30M190 10l-8 30M300 -30l-8 30M420 20l-8 30M520 -10l-8 30M700 0l-8 30M760 40l-8 30M140 70l-8 30M360 80l-8 30M470 110l-8 30M650 140l-8 30M250 130l-8 30"/></g>
+<path d="M0 190 Q120 165 240 182 T480 176 T800 172 V230 H0Z" fill="#0a1020"/>
+<path d="M0 205 Q160 188 330 200 T800 196 V230 H0Z" fill="#070c18"/>
+</svg>
+<div class="t"><h1>Histórias para dormir</h1><p>Escreva ou gere uma história, escolha a voz e o som de fundo, e baixe o áudio.</p></div>
+</header>
+<div class="wrap">
+
+<section id="s1">
+<h2>1. A história</h2>
+<p class="sub">Escreva a sua, carregue um exemplo ou peça para a IA escrever.</p>
+<div class="chips" id="exemplos"></div>
+<label for="titulo">Título</label>
+<input type="text" id="titulo" placeholder="Ex.: Uma noite na biblioteca de Ulpiano">
+<label for="texto">Texto (deixe uma linha em branco entre parágrafos)</label>
+<textarea id="texto" placeholder="Era uma noite calma..."></textarea>
+<p class="note" id="contagem"></p>
+<div class="row" style="margin-top:10px"><button id="salvar">Salvar na biblioteca</button><button id="limpar">Limpar</button></div>
+<details><summary>Minha biblioteca</summary><div class="lib" id="lib"></div></details>
+<details id="ia"><summary>Escrever com IA</summary>
+<div class="grid2">
+<div><label for="iaTema">Tema</label><select id="iaTema"><option>Direito</option><option>Espaço</option><option>História</option><option>Natureza</option><option>Livre</option></select></div>
+<div><label for="iaMin">Duração da narração</label><select id="iaMin"><option value="5">5 min</option><option value="10" selected>10 min</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option></select></div>
+</div>
+<label for="iaSobre">Sobre o quê?</label>
+<input type="text" id="iaSobre" placeholder="Ex.: a origem do habeas corpus na Inglaterra">
+<label for="iaTom">Tom</label>
+<select id="iaTom"><option>sereno e contemplativo</option><option>documental e tranquilo</option><option>conto com personagens, muito calmo</option></select>
+<div id="iaKeyBox"><label for="antKey">Chave da API da Anthropic (só na versão hospedada)</label><input type="password" id="antKey" placeholder="sk-ant-..." autocomplete="off"></div>
+<div class="row" style="margin-top:12px"><button class="pri" id="iaBtn">Escrever história</button><span class="note" id="iaMsg"></span></div>
+</details>
+</section>
+
+<section id="s2">
+<h2>2. A voz</h2>
+<p class="sub">As vozes do iPhone são grátis, mas só tocam ao vivo. As vozes ElevenLabs viram arquivo para baixar.</p>
+<div class="chips" id="motor">
+<button class="chip on" data-m="iphone">Vozes do iPhone</button>
+<button class="chip" data-m="eleven">ElevenLabs</button>
+</div>
+<div id="boxIphone">
+<label for="vozIph">Voz</label><select id="vozIph"></select>
+<label class="row" style="color:var(--ink)"><input type="checkbox" id="todasLinguas"> Mostrar vozes de outras línguas</label>
+<p class="note">Mais vozes: no iPhone, Ajustes › Acessibilidade › Conteúdo Falado › Vozes › Português (Brasil). Baixe as versões “Aprimorada” ou “Premium”, que soam bem mais naturais.</p>
+</div>
+<div id="boxEleven" class="hidden">
+<label for="elKey">Chave da API ElevenLabs</label>
+<input type="password" id="elKey" placeholder="sk_..." autocomplete="off">
+<div class="row" style="margin-top:10px"><button id="elCarregar">Carregar minhas vozes</button></div>
+<label for="vozEl">Voz</label><select id="vozEl"><option value="">Carregue as vozes primeiro</option></select>
+<label for="vozElId">…ou cole o ID de uma voz da biblioteca</label><input type="text" id="vozElId" placeholder="ID da voz">
+<div class="grid2">
+<div><label for="elModelo">Modelo</label><select id="elModelo"><option value="eleven_multilingual_v2">Multilingual v2 (recomendado)</option><option value="eleven_v3">v3 (mais expressivo)</option><option value="eleven_turbo_v2_5">Turbo v2.5 (mais barato)</option><option value="eleven_flash_v2_5">Flash v2.5 (mais barato)</option></select></div>
+<div><label for="elEstab">Estabilidade <span class="val" id="elEstabV"></span></label><input type="range" id="elEstab" min="0.2" max="1" step="0.05" value="0.65"></div>
+</div>
+<p class="note">Dica: na Voice Library do site da ElevenLabs, filtre por português e adicione vozes de narradores brasileiros à sua conta; depois toque em “Carregar minhas vozes”.</p>
+<p class="warn hidden" id="elBloq">Dentro do link do Claude, a página não consegue falar com a ElevenLabs. Use a versão hospedada (veja “Como usar no iPhone”).</p>
+</div>
+<label for="vel">Velocidade da narração <span class="val" id="velV"></span></label>
+<input type="range" id="vel" min="0.5" max="2.5" step="0.05" value="1" style="width:100%">
+<label for="pausa">Pausa entre parágrafos <span class="val" id="pausaV"></span></label>
+<input type="range" id="pausa" min="0" max="6" step="0.5" value="1.5" style="width:100%">
+<div class="row" style="margin-top:12px"><button id="ouvirVoz">Ouvir amostra da voz</button></div>
+</section>
+
+<section id="s3">
+<h2>3. Sons de fundo</h2>
+<p class="sub">Combine quantos quiser e ajuste o volume de cada um. Todos os sons são sintetizados aqui mesmo; você também pode usar uma gravação sua.</p>
+<div class="chips" id="presets"></div>
+<div class="sons" id="sons"></div>
+<div class="som" style="margin-top:10px"><div class="top"><b>Seu próprio som</b><span class="note" id="meuNome" style="margin:0"></span></div>
+<input type="file" id="meuSom" accept="audio/*" style="margin-top:8px;max-width:100%">
+<input type="range" id="meuVol" min="0" max="1" step="0.05" value="0.5" aria-label="Volume do seu som"></div>
+<div class="row" style="margin-top:12px"><button id="ouvirFundo">Ouvir só o fundo</button><button id="pararFundo">Parar</button></div>
+</section>
+
+<section id="s4">
+<h2>4. Montar e ouvir</h2>
+<div class="grid2">
+<div><label for="lead">Fundo antes da narração <span class="val" id="leadV"></span></label><input type="range" id="lead" min="0" max="60" step="1" value="8" style="width:100%"></div>
+<div><label for="cauda">Fundo depois da história <span class="val" id="caudaV"></span></label><input type="range" id="cauda" min="0" max="60" step="1" value="10" style="width:100%"></div>
+<div><label for="volN">Volume da narração <span class="val" id="volNV"></span></label><input type="range" id="volN" min="0.2" max="1.5" step="0.05" value="1" style="width:100%"></div>
+<div><label for="volF">Volume geral do fundo <span class="val" id="volFV"></span></label><input type="range" id="volF" min="0" max="1.5" step="0.05" value="1" style="width:100%"></div>
+</div>
+<p class="note">O fundo some devagar nos últimos 2 minutos do áudio.</p>
+<div id="ao_iph">
+<div class="row" style="margin-top:14px"><button class="pri" id="tocarVivo">Tocar agora</button><button id="pararVivo">Parar</button>
+<select id="timer" style="width:auto"><option value="0">Sem timer</option><option value="15">Parar em 15 min</option><option value="30">Parar em 30 min</option><option value="45">Parar em 45 min</option><option value="60">Parar em 60 min</option></select></div>
+<p class="note">Com as vozes do iPhone, mantenha a tela acesa (ou o Safari aberto) até a história acabar: o iOS costuma interromper a fala com a tela bloqueada. O fundo continua.</p>
+</div>
+<div id="ao_el" class="hidden">
+<div class="row" style="margin-top:14px"><button class="pri" id="montar">Gerar áudio</button><span class="note" id="custo"></span></div>
+</div>
+<div class="bar"><i id="prog"></i></div>
+<p class="note" id="status" aria-live="polite"></p>
+<audio id="player" controls class="hidden"></audio>
+<div class="row" style="margin-top:10px"><button id="baixar" class="hidden pri">Baixar áudio</button></div>
+<audio id="fundoAudio" loop class="hidden"></audio>
+</section>
+
+<section>
+<h2>Como usar no iPhone</h2>
+<details open><summary>Onde abrir</summary>
+<p class="note">Abra esta página numa aba normal do Safari, sem “Adicionar à Tela de Início”: só na aba comum o som continua tocando com a tela bloqueada.</p></details>
+<details><summary>Levar para o Apple Música</summary>
+<p class="note">O iPhone não deixa importar arquivos direto no app Música. Para isso, baixe o .wav, passe para o computador e adicione no app Apple Music do Windows (Arquivo › Adicionar arquivo à biblioteca). Com a Sincronização da Biblioteca ligada ou pelo app Dispositivos Apple, ele chega ao iPhone. Alternativa sem computador: abra o arquivo baixado pelo app Arquivos ou pelo VLC (grátis), que tocam com a tela bloqueada e permitem ajustar a velocidade.</p></details>
+<details><summary>Chaves de API</summary>
+<p class="note">As chaves ficam guardadas só neste navegador. A ElevenLabs cobra por caractere: o plano grátis cobre uns 10 minutos de narração por mês. Ao gerar de novo com o mesmo texto e a mesma voz, a página reaproveita a narração e não gasta créditos.</p></details>
+</section>
+</div>
+
+<script id="dsp">
+/* ===== Motor de áudio: sons sintetizados, time-stretch, WAV e ZIP (funções puras) ===== */
+var SR = 24000;
+function rng(seed){var a=seed>>>0;return function(){a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function biquad(type,f,q){var w=2*Math.PI*f/SR,c=Math.cos(w),s=Math.sin(w),al=s/(2*q),b0,b1,b2;
+ if(type==='lp'){b0=(1-c)/2;b1=1-c;b2=b0}else if(type==='hp'){b0=(1+c)/2;b1=-(1+c);b2=b0}else{b0=al;b1=0;b2=-al}
+ var a0=1+al,a1=-2*c/a0,a2=(1-al)/a0;b0/=a0;b1/=a0;b2/=a0;var x1=0,x2=0,y1=0,y2=0;
+ return function(x){var y=b0*x+b1*x1+b2*x2-a1*y1-a2*y2;x2=x1;x1=x;y2=y1;y1=y;return y}}
+function pinkGen(r){var b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;return function(){var w=r()*2-1;b0=.99886*b0+w*.0555179;b1=.99332*b1+w*.0750759;b2=.969*b2+w*.153852;b3=.8665*b3+w*.3104856;b4=.55*b4+w*.5329522;b5=-.7616*b5-w*.016898;var o=b0+b1+b2+b3+b4+b5+b6+w*.5362;b6=w*.115926;return o*.11}}
+function brownGen(r){var l=0;return function(){l=(l+.02*(r()*2-1))/1.02;return l*3.5}}
+function slow(r,hz){var cur=r(),nx=r(),ph=0,inc=hz/SR;return function(){ph+=inc;if(ph>=1){ph-=1;cur=nx;nx=r()}var t=ph*ph*(3-2*ph);return cur+(nx-cur)*t}}
+function events(r,perSec,n,fn){var t=0;for(;;){t+=-Math.log(1-r())/perSec*SR;if(t>=n)break;fn(Math.floor(t))}}
+function put(o,i,v){var n=o.length;o[((i%n)+n)%n]+=v}
+/* contínuos: gera n+xf e cruza o final com o início para o loop não ter emenda */
+function loopify(b,n){var xf=b.length-n,o=b.subarray(0,n);for(var i=0;i<xf;i++){var t=i/xf;o[i]=o[i]*Math.sqrt(t)+b[n+i]*Math.sqrt(1-t)}return new Float32Array(o)}
+var XF=SR*2;
+
+function gRain(n,r,heavy){var m=n+XF,o=new Float32Array(m),p=pinkGen(r),b=brownGen(r),lp=biquad('lp',heavy?3200:5200,.7),hp=biquad('hp',heavy?120:450,.7),sw=slow(r,.12),i;
+ for(i=0;i<m;i++)o[i]=hp(lp(p()*(heavy?1:.6)+(heavy?b()*.6:0)))*(.75+.5*sw());
+ var d=new Float32Array(m);events(r,heavy?260:70,m,function(at){var len=Math.floor(SR*(.003+r()*.012)),a=(.15+r()*.85)*(heavy?.45:.8);for(var k=0;k<len&&at+k<m;k++)d[at+k]+=(r()*2-1)*a*Math.exp(-k/(len*.22))});
+ var bp=biquad('bp',heavy?2400:3600,.9);for(i=0;i<m;i++)o[i]+=bp(d[i])*1.6;return loopify(o,n)}
+function gThunder(n,r){var o=new Float32Array(n),c=Math.max(2,Math.round(n/SR/45));
+ for(var e=0;e<c;e++){var at=Math.floor((e+r()*.6)*n/c),dur=Math.floor((6+r()*6)*SR),b=brownGen(r),l1=biquad('lp',180+r()*120,.7),l2=biquad('lp',420,.7),fl=slow(r,1.8),atk=SR*(.3+r()*.9),amp=.5+r()*.5,near=r()<.5,hp=biquad('hp',900,.7);
+  for(var k=0;k<dur;k++){var env=k<atk?k/atk:Math.exp(-(k-atk)/(dur*.28));var v=l2(l1(b()))*env*(.35+.65*fl())*amp*3;
+   if(near&&k<SR*.35)v+=hp(r()*2-1)*Math.exp(-k/(SR*.08))*.35*amp;put(o,at+k,v)}}return o}
+function gFire(n,r){var m=n+XF,o=new Float32Array(m),b=brownGen(r),p=pinkGen(r),lp=biquad('lp',550,.7),hp2=biquad('hp',2500,.7),fl=slow(r,.9),i;
+ for(i=0;i<m;i++)o[i]=lp(b())*(.5+.5*fl())*.9+hp2(p())*.06;
+ var c=new Float32Array(m);events(r,7,m,function(at){var q=1+Math.floor(r()*4);for(var j=0;j<q;j++){var s=at+Math.floor(r()*SR*.05),len=20+Math.floor(r()*110),a=.25+r()*.75;for(var k=0;k<len&&s+k<m;k++)c[s+k]+=(r()*2-1)*a*Math.exp(-k/(len*.18))}});
+ var hp=biquad('hp',1300,.7);for(i=0;i<m;i++)o[i]+=hp(c[i])*1.3;
+ var pp=new Float32Array(m);events(r,.5,m,function(at){var len=250+Math.floor(r()*500),a=.6+r()*.6;for(var k=0;k<len&&at+k<m;k++)pp[at+k]+=(r()*2-1)*a*Math.exp(-k/(len*.15))});
+ var bp=biquad('bp',800+r()*500,1.1);for(i=0;i<m;i++)o[i]+=bp(pp[i])*1.4;return loopify(o,n)}
+function gWaves(n,r){var env=new Float32Array(n),t=0;while(t<n){var rise=SR*(2.5+r()*1.8),fall=SR*(4+r()*4),a=.55+r()*.45;
+  for(var k=0;k<rise+fall*3;k++){var v=k<rise?Math.pow(Math.sin(k/rise*Math.PI/2),2):Math.exp(-(k-rise)/fall);put(env,Math.floor(t+k),v*a)}t+=rise+fall*(.9+r()*.5)}
+ var mx=0,i;for(i=0;i<n;i++)if(env[i]>mx)mx=env[i];var m=n+XF,o=new Float32Array(m),b=brownGen(r),p=pinkGen(r),y1=0,y2=0,hp=biquad('hp',60,.7);
+ for(i=0;i<m;i++){var e=env[i%n]/mx,fc=250+2600*Math.pow(e,1.6),a1=Math.exp(-2*Math.PI*fc/SR),x=b()*.7+p()*.7;y1=x+(y1-x)*a1;y2=y1+(y2-y1)*a1;o[i]=hp(y2)*(.18+e)}return loopify(o,n)}
+function gWind(n,r){var m=n+XF,o=new Float32Array(m),f1=slow(r,.07),f2=slow(r,.11),g=slow(r,.05),low=0,band=0;
+ for(var i=0;i<m;i++){var fc=220+750*f1()+150*f2(),f=2*Math.sin(Math.PI*fc/SR);low+=f*band;var high=(r()*2-1)-low-.7*band;band+=f*high;var a=g();o[i]=band*(.15+.85*a*a)*.5}return loopify(o,n)}
+function gStream(n,r){var m=n+XF,o=new Float32Array(m),p=pinkGen(r),hp=biquad('hp',700,.7),lp=biquad('lp',4500,.7),fl=slow(r,3),i;
+ for(i=0;i<m;i++)o[i]=lp(hp(p()))*(.6+.4*fl())*.9;
+ events(r,45,m,function(at){var f0=280+r()*1200,len=Math.floor(SR*(.008+r()*.03)),a=.08+r()*.3,ph=0;for(var k=0;k<len&&at+k<m;k++){ph+=2*Math.PI*f0*(1+1.6*k/len)/SR;o[at+k]+=Math.sin(ph)*a*Math.sin(Math.PI*k/len)*Math.exp(-k/(len*.6))}});return loopify(o,n)}
+function gCrickets(n,r){var o=new Float32Array(n);for(var c=0;c<4;c++){var fc=4100+r()*1100,per=SR*(.5+r()*.6),pul=3+Math.floor(r()*2),pl=Math.floor(SR*(.01+r()*.006)),amp=(.12+r()*.4),gate=slow(r,.08),t=Math.floor(r()*per);
+ while(t<n){var g=gate();if(g>.3){for(var p=0;p<pul;p++){var s=t+p*pl*2;for(var k=0;k<pl;k++){var tt=(s+k)/SR,w=Math.sin(Math.PI*k/pl);put(o,s+k,(Math.sin(2*Math.PI*fc*tt)+.25*Math.sin(4*Math.PI*fc*tt))*w*amp*Math.min(1,(g-.3)*3))}}}t+=Math.floor(per*(.9+r()*.2))}}return o}
+function gFrogs(n,r){var o=new Float32Array(n);for(var f=0;f<4;f++){var fc=230+r()*450,pr=35+r()*35,amp=.25+r()*.5,t=Math.floor(r()*SR*3);
+ while(t<n){var reps=r()<.4?2:1;for(var q=0;q<reps;q++){var len=Math.floor(SR*(.12+r()*.22)),s=t+q*Math.floor(len*1.5),ph=0;for(var k=0;k<len;k++){var tt=k/SR;ph+=2*Math.PI*fc*(1-.08*k/len)/SR;var pu=Math.pow(.5+.5*Math.sin(2*Math.PI*pr*tt),4);put(o,s+k,(Math.sin(ph)+.4*Math.sin(2*ph))*pu*Math.sin(Math.PI*k/len)*amp)}}t+=Math.floor(SR*(1.4+r()*4))}}
+ var lp=biquad('lp',1600,.7);for(var i=0;i<n;i++)o[i]=lp(o[i]);return o}
+function gOwl(n,r){var o=new Float32Array(n),pat=[[.55,.6],[.22,.12],[.22,.45],[.7,0]],t=Math.floor(r()*SR*5);
+ while(t<n){var f=360+r()*60,amp=.4+r()*.4,s=t;for(var h=0;h<pat.length;h++){var len=Math.floor(pat[h][0]*SR),ph=0;for(var k=0;k<len;k++){ph+=2*Math.PI*f*(1+.04*Math.sin(Math.PI*k/len)-.03*k/len)/SR;var e=Math.min(1,k/(SR*.05))*Math.min(1,(len-k)/(SR*.15));var v=(Math.sin(ph)+.15*Math.sin(2*ph))*e*amp;put(o,s+k,v);put(o,s+k+Math.floor(SR*.13),v*.28);put(o,s+k+Math.floor(SR*.29),v*.12)}s+=len+Math.floor(pat[h][1]*SR)}t+=Math.floor(SR*(16+r()*16))}return o}
+function gBirds(n,r){var o=new Float32Array(n);events(r,.3,n,function(at){var cnt=3+Math.floor(r()*6),f0=2400+r()*3000,sw=(r()<.5?-1:1)*(500+r()*1500),dur=.04+r()*.08,gap=.03+r()*.1,amp=.12+r()*.3,tr=r()<.4?25+r()*20:0,s=at;
+  for(var c=0;c<cnt;c++){var len=Math.floor(SR*dur*(.8+r()*.4)),ph=0;for(var k=0;k<len;k++){var x=k/len,f=f0+sw*x+(tr?300*Math.sin(2*Math.PI*tr*k/SR):0);ph+=2*Math.PI*f/SR;put(o,s+k,Math.sin(ph)*Math.sin(Math.PI*x)*amp)}s+=len+Math.floor(SR*gap)}});return o}
+function gPurr(n,r){var m=n+XF,o=new Float32Array(m),b=brownGen(r),lp=biquad('lp',380,.7),ph=0,cyc=SR*2.3;
+ for(var i=0;i<m;i++){var c=(i%cyc)/cyc,inh=c<.45,f=inh?27:23;ph+=2*Math.PI*f/SR;var pu=Math.pow(.5+.5*Math.sin(ph),2.5),br=inh?Math.sin(Math.PI*c/.45)*.9+.1:Math.sin(Math.PI*(c-.45)/.55)*.7+.1;o[i]=lp(b())*pu*br*2.2}return loopify(o,n)}
+function gBrown(n,r){var m=n+XF,o=new Float32Array(m),b=brownGen(r),lp=biquad('lp',900,.7);for(var i=0;i<m;i++)o[i]=lp(b());return loopify(o,n)}
+function gPink(n,r){var m=n+XF,o=new Float32Array(m),p=pinkGen(r),lp=biquad('lp',7000,.7);for(var i=0;i<m;i++)o[i]=lp(p());return loopify(o,n)}
+
+/* duracões de loop que dividem 300 s, para o fundo ao vivo repetir sem emenda */
+var SONS=[
+ {id:'chuva',nome:'Chuva leve',loop:60,g:function(n,r){return gRain(n,r,false)}},
+ {id:'chuvaforte',nome:'Chuva forte',loop:60,g:function(n,r){return gRain(n,r,true)}},
+ {id:'trovoes',nome:'Trovões ao longe',loop:150,g:gThunder,peak:1},
+ {id:'fogueira',nome:'Fogueira estalando',loop:60,g:gFire},
+ {id:'ondas',nome:'Ondas do mar',loop:100,g:gWaves},
+ {id:'vento',nome:'Vento',loop:60,g:gWind},
+ {id:'riacho',nome:'Riacho',loop:60,g:gStream},
+ {id:'grilos',nome:'Grilos',loop:60,g:gCrickets,peak:1},
+ {id:'sapos',nome:'Sapos',loop:60,g:gFrogs,peak:1},
+ {id:'coruja',nome:'Coruja',loop:150,g:gOwl,peak:1},
+ {id:'passaros',nome:'Pássaros ao amanhecer',loop:100,g:gBirds,peak:1},
+ {id:'gato',nome:'Gato ronronando',loop:60,g:gPurr},
+ {id:'marrom',nome:'Ruído marrom',loop:60,g:gBrown},
+ {id:'rosa',nome:'Ruído rosa',loop:60,g:gPink}
+];
+var _cache={};
+function somBuf(s){if(_cache[s.id])return _cache[s.id];var n=s.loop*SR,b=s.g(n,rng(1234+s.id.length*97+s.id.charCodeAt(0)));
+ var i,v=0;if(s.peak){for(i=0;i<n;i++)v=Math.max(v,Math.abs(b[i]));v=.55/(v||1)}else{for(i=0;i<n;i++)v+=b[i]*b[i];v=.11/Math.sqrt(v/n||1)}
+ for(i=0;i<n;i++)b[i]*=v;_cache[s.id]=b;return b}
+
+/* time-stretch WSOLA: muda a velocidade da fala sem mudar o tom */
+function stretch(x,rate){if(Math.abs(rate-1)<.01||x.length<4096)return x;var N=1024,Hs=512,tol=256,win=new Float32Array(N),j;
+ for(j=0;j<N;j++)win[j]=.5-.5*Math.cos(2*Math.PI*j/N);var outLen=Math.floor(x.length/rate),y=new Float32Array(outLen+N),ws=new Float32Array(outLen+N),prev=0;
+ for(var k=0;;k++){var op=k*Hs,ideal=Math.round(k*Hs*rate);if(ideal+N+tol>=x.length||op>=outLen)break;var best=0;
+  if(k>0){var nat=Math.min(prev+Hs,x.length-N-1),bc=-1e30;for(var d=-tol;d<=tol;d+=4){var p=ideal+d;if(p<0)continue;var c=0,e=1e-9;for(j=0;j<N;j+=4){var a=x[p+j];c+=a*x[nat+j];e+=a*a}c/=Math.sqrt(e);if(c>bc){bc=c;best=d}}}
+  var pp=Math.max(0,ideal+best);for(j=0;j<N;j++){y[op+j]+=x[pp+j]*win[j];ws[op+j]+=win[j]}prev=pp}
+ for(j=0;j<outLen;j++)if(ws[j]>1e-3)y[j]/=ws[j];return y.subarray(0,outLen)}
+
+/* mixagem em blocos -> partes de um WAV mono 16-bit */
+function mixWav(o){/* o:{narr,lead,tail,layers:[{buf,vol}],volN,volF,fadeOut} */
+ var nl=o.narr?o.narr.length:0,lead=Math.floor(o.lead*SR),total=lead+nl+Math.floor(o.tail*SR),fo=Math.min(Math.floor((o.fadeOut||120)*SR),total),fi=o.noFade?1:SR*4,parts=[wavHeader(total)],CH=SR*10;
+ for(var pos=0;pos<total;pos+=CH){var len=Math.min(CH,total-pos),a=new Int16Array(len);
+  for(var i=0;i<len;i++){var t=pos+i,s=0;for(var L=0;L<o.layers.length;L++){var b=o.layers[L].buf;s+=b[t%b.length]*o.layers[L].vol}
+   var env=o.noFade?1:Math.min(1,t/fi,(total-t)/fo);s*=o.volF*env;var ni=t-lead;if(ni>=0&&ni<nl)s+=o.narr[ni]*o.volN;
+   if(s>.9||s<-.9)s=Math.tanh(s);a[i]=s<0?Math.max(-32768,s*32768):Math.min(32767,s*32767)}parts.push(a)}
+ return{parts:parts,seconds:total/SR}}
+function wavHeader(n){var b=new ArrayBuffer(44),v=new DataView(b),w=function(o,s){for(var i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+ w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,SR,true);v.setUint32(28,SR*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);return new Uint8Array(b)}
+var CRCT=(function(){var t=new Uint32Array(256);for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(parts){var c=0xFFFFFFFF;for(var p=0;p<parts.length;p++){var u=parts[p] instanceof Uint8Array?parts[p]:new Uint8Array(parts[p].buffer,parts[p].byteOffset,parts[p].byteLength);for(var i=0;i<u.length;i++)c=CRCT[(c^u[i])&255]^(c>>>8)}return(c^0xFFFFFFFF)>>>0}
+/* ZIP sem compressão com um arquivo dentro (para o modo dentro do Claude, que não aceita .wav) */
+function zipParts(name,parts){var nm=new TextEncoder().encode(name),size=0,i;for(i=0;i<parts.length;i++)size+=parts[i].byteLength;var crc=crc32(parts);
+ var lh=new DataView(new ArrayBuffer(30));lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);lh.setUint32(14,crc,true);lh.setUint32(18,size,true);lh.setUint32(22,size,true);lh.setUint16(26,nm.length,true);
+ var cd=new DataView(new ArrayBuffer(46));cd.setUint32(0,0x02014b50,true);cd.setUint16(4,20,true);cd.setUint16(6,20,true);cd.setUint16(8,0x0800,true);cd.setUint32(16,crc,true);cd.setUint32(20,size,true);cd.setUint32(24,size,true);cd.setUint16(28,nm.length,true);
+ var cdOff=30+nm.length+size,ed=new DataView(new ArrayBuffer(22));ed.setUint32(0,0x06054b50,true);ed.setUint16(8,1,true);ed.setUint16(10,1,true);ed.setUint32(12,46+nm.length,true);ed.setUint32(16,cdOff,true);
+ return[new Uint8Array(lh.buffer),nm].concat(parts,[new Uint8Array(cd.buffer),nm,new Uint8Array(ed.buffer)])}
+function paragrafos(txt){var ps=txt.replace(/\r/g,'').split(/\n\s*\n|\n/).map(function(s){return s.trim()}).filter(Boolean),out=[];
+ ps.forEach(function(p){while(p.length>2500){var cut=p.lastIndexOf('. ',2500);if(cut<500)cut=2500;out.push(p.slice(0,cut+1).trim());p=p.slice(cut+1).trim()}if(p)out.push(p)});return out}
+if(typeof module!=='undefined')module.exports={SR:SR,SONS:SONS,somBuf:somBuf,stretch:stretch,mixWav:mixWav,zipParts:zipParts,crc32:crc32,paragrafos:paragrafos};
+</script>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const store={get(k,d){try{const v=localStorage.getItem('hpd_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('hpd_'+k,JSON.stringify(v))}catch(e){}}};
+const noClaude=!(window.claude&&typeof window.claude.use==='function');
+const cap=name=>noClaude?Promise.resolve(null):Promise.race([window.claude.use(name),new Promise(r=>setTimeout(()=>r(null),10000))]).catch(()=>null);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const status=(t,p)=>{$('status').textContent=t||'';if(p!=null)$('prog').style.width=Math.round(p*100)+'%'};
+const tick=()=>new Promise(r=>setTimeout(r,0));
+
+/* ---------- 1. histórias ---------- */
+const EXEMPLOS=[
+{t:'Uma noite na biblioteca de Ulpiano',tema:'Direito',x:`Roma, numa noite morna de outono. As ruas já estão quietas, e só uma lamparina continua acesa numa casa perto do Fórum.
+
+Ali dentro, Ulpiano, jurista do império, escreve devagar. Diante dele há rolos de papiro empilhados, tabuinhas de cera e um copo de água que ele esqueceu de beber.
+
+Lá fora, um vento leve passa entre as colunas. Ulpiano pensa numa ideia simples, que vai atravessar quase dois mil anos: dar a cada um o que é seu. Ele escreve a frase com calma, letra por letra, como quem planta uma semente.
+
+Ele pensa nas pessoas que um dia vão ler aquilo. Estudantes, juízes, gente comum procurando um pouco de ordem num mundo agitado. O direito, para ele, não é barulho. É uma conversa longa e paciente entre gerações.
+
+A chama da lamparina oscila. Ulpiano relê o que escreveu, risca uma palavra, troca por outra mais leve. Não há pressa. As leis boas, ele sabe, são feitas devagar.
+
+Aos poucos, os olhos dele ficam pesados. Ele enrola o papiro com cuidado e o guarda junto aos outros. A casa fica em silêncio, e o silêncio é confortável, como um cobertor.
+
+Lá fora, Roma dorme. As pedras do Fórum guardam o calor do dia. E a ideia, escrita naquela noite, segue viajando, tranquila, até chegar aqui, até você, agora, deitado e em paz.`},
+{t:'Devagar, até Saturno',tema:'Espaço',x:`Imagine uma nave pequena e silenciosa, deslizando para longe da Terra. Pela janela redonda, o planeta azul vai ficando do tamanho de uma bola de gude.
+
+Passamos pela Lua. Ela é cinzenta e serena, coberta de crateras antigas, que guardam a memória de bilhões de anos. Não há vento lá. Nada se move. As pegadas dos astronautas continuam no mesmo lugar.
+
+Seguimos em frente, sem pressa. O Sol fica para trás, cada vez menor, e o espaço ao redor é escuro e calmo, salpicado de estrelas que não piscam, porque aqui não existe ar para fazê-las tremer.
+
+Depois de Marte, atravessamos o cinturão de asteroides. Ao contrário dos filmes, ele é quase vazio. As rochas estão tão distantes umas das outras que passamos sem ver nenhuma.
+
+Júpiter aparece enorme, com suas faixas cor de creme e ferrugem. A Grande Mancha Vermelha gira devagar, uma tempestade tão antiga que já existia quando os primeiros telescópios a encontraram.
+
+E então, Saturno. Os anéis surgem como um disco de luz finíssimo. São feitos quase só de gelo de água, em pedaços que vão de grãos de poeira a blocos do tamanho de casas, todos girando em silêncio.
+
+Saturno é tão leve que, se existisse uma banheira grande o bastante, ele flutuaria. A nave desliga os motores e fica ali, parada, olhando os anéis brilharem.
+
+Não há nada para fazer agora, a não ser olhar. A luz suave do gelo, o silêncio profundo, o tempo passando devagar. Você respira fundo e deixa o corpo ficar leve, leve como Saturno.`},
+{t:'Um fim de tarde em Alexandria',tema:'História',x:`Alexandria, no Egito, há mais de dois mil anos. O sol está se pondo sobre o mar Mediterrâneo, e a água fica dourada, depois rosada, depois azul.
+
+No porto, os barcos balançam devagar. Marinheiros enrolam as cordas e conversam baixinho. Na ilha de Faros, o grande farol começa a ser aceso, e sua luz vai se estender sobre as ondas durante toda a noite.
+
+Perto dali fica a Biblioteca. Corredores frescos, cheios de rolos de papiro vindos de todos os cantos do mundo conhecido. Poemas, mapas, tratados de medicina e de astronomia, guardados com cuidado em prateleiras de madeira.
+
+Num pátio, um homem chamado Eratóstenes observa as sombras. Ele soube que, numa cidade ao sul, ao meio-dia de certo dia do ano, o sol ilumina o fundo de um poço. Aqui, no mesmo momento, as colunas ainda fazem sombra.
+
+Com essa pequena diferença, e com paciência, ele calcula o tamanho da Terra inteira. Sem pressa, só com sombras, distâncias e um pouco de geometria.
+
+A noite chega. Os estudiosos guardam seus rolos e caminham para casa pelas ruas de pedra. O cheiro do mar se mistura ao do pão assado nos fornos.
+
+No alto, as estrelas aparecem uma a uma, as mesmas que você poderia ver hoje. O farol gira sua luz sobre a água. E a cidade, satisfeita com o que aprendeu, adormece tranquila.`}];
+$('exemplos').innerHTML=EXEMPLOS.map((e,i)=>`<button class="chip" data-i="${i}">${esc(e.tema)}: ${esc(e.t)}</button>`).join('')+'<span class="note" style="margin:4px 0 0;width:100%">Textos de exemplo, escritos para testar.</span>';
+$('exemplos').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;const x=EXEMPLOS[b.dataset.i];$('titulo').value=x.t;$('texto').value=x.x;conta();salvaRascunho()});
+function conta(){const t=$('texto').value,w=(t.match(/\S+/g)||[]).length,v=+$('vel').value,min=w/130/v;
+ $('contagem').textContent=w?`${w} palavras · ${t.length.toLocaleString('pt-BR')} caracteres · cerca de ${min<1?'menos de 1':Math.round(min)} min narrados`:'';custo()}
+function salvaRascunho(){store.set('rasc',{t:$('titulo').value,x:$('texto').value})}
+$('texto').addEventListener('input',()=>{conta();salvaRascunho()});$('titulo').addEventListener('input',salvaRascunho);
+$('limpar').onclick=()=>{$('titulo').value='';$('texto').value='';conta();salvaRascunho()};
+function lib(){const l=store.get('lib',[]);$('lib').innerHTML=l.length?l.map((s,i)=>`<div><span>${esc(s.t||'Sem título')}</span><span class="row"><button class="tg" data-a="abrir" data-i="${i}">Abrir</button><button class="tg" data-a="apagar" data-i="${i}">Apagar</button></span></div>`).join(''):'<p class="note">Nenhuma história salva ainda.</p>'}
+$('salvar').onclick=()=>{const t=$('titulo').value.trim(),x=$('texto').value.trim();if(!x){status('Escreva algo antes de salvar.');return}const l=store.get('lib',[]).filter(s=>s.t!==t);l.unshift({t,x});store.set('lib',l.slice(0,60));lib();status('História salva na biblioteca.')};
+$('lib').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const l=store.get('lib',[]),s=l[b.dataset.i];if(b.dataset.a==='abrir'){$('titulo').value=s.t;$('texto').value=s.x;conta();salvaRascunho()}else{l.splice(b.dataset.i,1);store.set('lib',l);lib()}});
+
+/* IA */
+$('antKey').value=store.get('antKey','');$('antKey').addEventListener('change',()=>store.set('antKey',$('antKey').value.trim()));
+if(!noClaude)$('iaKeyBox').classList.add('hidden');
+function promptIA(){const min=+$('iaMin').value,pal=min*130;return `Escreva uma história para dormir, em português do Brasil, para ser narrada em voz alta a uma pessoa com insônia.
+Tema: ${$('iaTema').value}. Assunto: ${$('iaSobre').value||'à sua escolha, dentro do tema'}. Tom: ${$('iaTom').value}.
+Tamanho: cerca de ${pal} palavras (uns ${min} minutos de narração calma).
+Regras: nada de suspense, conflito, perigo ou sustos; frases fluidas, de ritmo lento; descrições sensoriais suaves; quando falar de direito, ciência ou história, use fatos corretos e explique com simplicidade, sem excesso de números e datas; parágrafos curtos separados por uma linha em branco; o final desacelera e convida ao descanso.
+Formato: na primeira linha, só o título; depois uma linha em branco; depois o texto. Sem markdown, sem listas, sem comentários antes ou depois.`}
+function aplicaIA(txt){const i=txt.indexOf('\n'),t=i>0?txt.slice(0,i).replace(/^#+\s*|\*/g,'').trim():'';$('titulo').value=t;$('texto').value=(i>0?txt.slice(i+1):txt).trim();conta()}
+$('iaBtn').onclick=async()=>{const b=$('iaBtn');b.disabled=true;$('iaMsg').textContent='Escrevendo…';
+ try{const s=await cap('sample');let txt;
+  if(s){const r=await s(promptIA(),{modelTier:'default',onText:({text})=>aplicaIA(text)});txt=r.text}
+  else{const k=$('antKey').value.trim();if(!k)throw new Error('Cole a chave da API da Anthropic acima, ou escreva a história você mesmo.');
+   const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-5-5',max_tokens:12000,messages:[{role:'user',content:promptIA()}]})});
+   const j=await r.json();if(!r.ok)throw new Error(j.error?.message||('Erro '+r.status));txt=j.content.map(c=>c.text||'').join('')}
+  aplicaIA(txt);salvaRascunho();$('iaMsg').textContent='Pronto. Revise e edite à vontade.'}
+ catch(e){$('iaMsg').textContent=e.code==='not_granted'?'A IA não foi permitida nesta página.':(e.message||'Não deu certo. Tente de novo.')}finally{b.disabled=false}};
+
+/* ---------- 2. vozes ---------- */
+let motor=store.get('motor','iphone');
+function setMotor(m){motor=m;store.set('motor',m);document.querySelectorAll('#motor .chip').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+ $('boxIphone').classList.toggle('hidden',m!=='iphone');$('boxEleven').classList.toggle('hidden',m!=='eleven');$('ao_iph').classList.toggle('hidden',m!=='iphone');$('ao_el').classList.toggle('hidden',m!=='eleven');$('elBloq').classList.toggle('hidden',noClaude);custo()}
+$('motor').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMotor(b.dataset.m)});
+const synth=window.speechSynthesis;
+function listaIph(){if(!synth){$('vozIph').innerHTML='<option>Este navegador não tem vozes</option>';return}
+ const all=synth.getVoices(),todas=$('todasLinguas').checked,vs=all.filter(v=>todas||/^pt/i.test(v.lang)).sort((a,b)=>(/BR/i.test(b.lang)-/BR/i.test(a.lang))||a.name.localeCompare(b.name)),sel=store.get('vozIph','');
+ $('vozIph').innerHTML=vs.length?vs.map(v=>`<option value="${esc(v.voiceURI)}"${v.voiceURI===sel?' selected':''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join(''):'<option value="">Nenhuma voz encontrada</option>'}
+if(synth){listaIph();synth.onvoiceschanged=listaIph}
+$('todasLinguas').onchange=listaIph;$('vozIph').onchange=()=>store.set('vozIph',$('vozIph').value);
+const vozIph=()=>synth&&synth.getVoices().find(v=>v.voiceURI===$('vozIph').value);
+$('elKey').value=store.get('elKey','');$('elKey').addEventListener('change',()=>store.set('elKey',$('elKey').value.trim()));
+$('vozElId').value=store.get('vozElId','');$('vozElId').addEventListener('change',()=>{store.set('vozElId',$('vozElId').value.trim());custo()});
+$('elModelo').value=store.get('elModelo','eleven_multilingual_v2');$('elModelo').onchange=()=>store.set('elModelo',$('elModelo').value);
+function preencheEl(vs){const sel=store.get('vozEl','');$('vozEl').innerHTML=vs.map(v=>{const l=v.labels||{},d=[l.gender==='male'?'masc.':l.gender==='female'?'fem.':'',l.accent,l.age,l.description||l.descriptive].filter(Boolean).join(', ');return `<option value="${esc(v.voice_id)}"${v.voice_id===sel?' selected':''}>${esc(v.name)}${d?' · '+esc(d):''}</option>`}).join('')}
+preencheEl(store.get('elVozes',[]));if(!store.get('elVozes',[]).length)$('vozEl').innerHTML='<option value="">Carregue as vozes primeiro</option>';
+$('vozEl').onchange=()=>store.set('vozEl',$('vozEl').value);
+$('elCarregar').onclick=async()=>{const k=$('elKey').value.trim();if(!k){status('Cole a chave da ElevenLabs primeiro.');return}status('Carregando vozes…');
+ try{const r=await fetch('https://api.elevenlabs.io/v1/voices',{headers:{'xi-api-key':k}});const j=await r.json();if(!r.ok)throw new Error(j.detail?.message||('Erro '+r.status));
+  const vs=j.voices.map(v=>({voice_id:v.voice_id,name:v.name,labels:v.labels}));store.set('elVozes',vs);preencheEl(vs);store.set('vozEl',$('vozEl').value);status(vs.length+' vozes carregadas.')}
+ catch(e){status(noClaude?('Não consegui carregar: '+e.message):'Dentro do Claude a ElevenLabs fica bloqueada. Use a versão hospedada.')}};
+const elVoz=()=>$('vozElId').value.trim()||$('vozEl').value;
+async function elTTS(text,speed){const k=$('elKey').value.trim();if(!k)throw new Error('Cole a chave da ElevenLabs.');const v=elVoz();if(!v)throw new Error('Escolha uma voz.');
+ const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(v)}?output_format=mp3_44100_128`,{method:'POST',headers:{'xi-api-key':k,'content-type':'application/json'},
+  body:JSON.stringify({text,model_id:$('elModelo').value,voice_settings:{stability:+$('elEstab').value,similarity_boost:.75,style:0,use_speaker_boost:true,speed}})});
+ if(!r.ok){let m='Erro '+r.status;try{const j=await r.json();m=j.detail?.message||j.detail?.status||m}catch(e){}throw new Error(m)}
+ const ab=await r.arrayBuffer(),Ctx=window.OfflineAudioContext||window.webkitOfflineAudioContext,ctx=new Ctx(1,SR,SR);
+ const buf=await new Promise((ok,no)=>{const p=ctx.decodeAudioData(ab,ok,no);if(p&&p.then)p.then(ok,no)});return buf.getChannelData(0).slice()}
+
+/* sliders */
+const fmt={vel:v=>(+v).toFixed(2).replace('.',',')+'×',pausa:v=>(+v).toString().replace('.',',')+' s',lead:v=>v+' s',cauda:v=>v+' min',volN:v=>Math.round(v*100)+'%',volF:v=>Math.round(v*100)+'%',elEstab:v=>Math.round(v*100)+'%'};
+Object.keys(fmt).forEach(id=>{const el=$(id);el.value=store.get(id,el.value);const up=()=>{$(id+'V').textContent=fmt[id](el.value);store.set(id,el.value)};el.addEventListener('input',()=>{up();if(id==='vel')conta();if(id==='volF')fundoSujo=true});up()});
+
+/* ---------- 3. sons ---------- */
+const estado=store.get('sons',{chuva:{on:true,vol:.6}});
+const PRESETS=[['Chuva tranquila',{chuva:.6}],['Tempestade',{chuvaforte:.65,trovoes:.6}],['Cabana com lareira',{fogueira:.7,chuva:.35,vento:.2}],['Praia à noite',{ondas:.8,vento:.15,grilos:.1}],['Noite no campo',{grilos:.4,sapos:.35,coruja:.3,vento:.15}],['Amanhecer no riacho',{passaros:.35,riacho:.5}],['Gato no colo',{gato:.6,fogueira:.3}],['Só ruído marrom',{marrom:.6}]];
+$('presets').innerHTML=PRESETS.map((p,i)=>`<button class="chip" data-p="${i}">${p[0]}</button>`).join('');
+$('presets').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;const p=PRESETS[b.dataset.p][1];SONS.forEach(s=>estado[s.id]={on:s.id in p,vol:p[s.id]||(estado[s.id]?.vol??.5)});salvaSons();desenhaSons()});
+function desenhaSons(){$('sons').innerHTML=SONS.map(s=>{const e=estado[s.id]||{on:false,vol:.5};return `<div class="som${e.on?' on':''}"><div class="top"><b>${s.nome}</b><button class="tg${e.on?' pri':''}" data-t="${s.id}" aria-pressed="${e.on}">${e.on?'Ligado':'Ligar'}</button></div><input type="range" min="0" max="1" step="0.05" value="${e.vol}" data-v="${s.id}" aria-label="Volume: ${s.nome}"></div>`}).join('')}
+function salvaSons(){store.set('sons',estado);fundoSujo=true;custo()}
+$('sons').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;const id=b.dataset.t;estado[id]=estado[id]||{vol:.5};estado[id].on=!estado[id].on;if(estado[id].on){status('Preparando '+SONS.find(s=>s.id===id).nome.toLowerCase()+'…');setTimeout(()=>{somBuf(SONS.find(s=>s.id===id));status('')},30)}salvaSons();desenhaSons()});
+$('sons').addEventListener('input',e=>{const id=e.target.dataset.v;if(!id)return;estado[id]=estado[id]||{on:false};estado[id].vol=+e.target.value;salvaSons()});
+desenhaSons();
+let meuBuf=null;$('meuVol').value=store.get('meuVol',.5);$('meuVol').oninput=()=>{store.set('meuVol',$('meuVol').value);fundoSujo=true};
+$('meuSom').onchange=async()=>{const f=$('meuSom').files[0];if(!f)return;status('Lendo seu som…');try{const Ctx=window.OfflineAudioContext||window.webkitOfflineAudioContext,ctx=new Ctx(1,SR,SR),ab=await f.arrayBuffer();
+ const b=await new Promise((ok,no)=>{const p=ctx.decodeAudioData(ab,ok,no);if(p&&p.then)p.then(ok,no)});meuBuf=b.getChannelData(0).slice();let v=0;for(let i=0;i<meuBuf.length;i++)v+=meuBuf[i]*meuBuf[i];v=.11/Math.sqrt(v/meuBuf.length||1);for(let i=0;i<meuBuf.length;i++)meuBuf[i]*=v;
+ $('meuNome').textContent=f.name;fundoSujo=true;status('Seu som entrou na mistura.')}catch(e){status('Não consegui ler esse arquivo de áudio.')}};
+function camadas(){const l=SONS.filter(s=>estado[s.id]?.on&&estado[s.id].vol>0).map(s=>({buf:somBuf(s),vol:estado[s.id].vol}));if(meuBuf&&+$('meuVol').value>0)l.push({buf:meuBuf,vol:+$('meuVol').value});return l}
+const blobDe=parts=>new Blob(parts,{type:'audio/wav'});
+let fundoSujo=true,fundoURL=null;
+function fundoLoop(){if(!fundoSujo&&fundoURL)return fundoURL;const ls=camadas();if(!ls.length)return null;
+ const m=mixWav({narr:null,lead:0,tail:300,layers:ls,volN:1,volF:+$('volF').value,noFade:true});
+ /* sem fade: 300 s exatos para repetir sem emenda */
+ if(fundoURL)URL.revokeObjectURL(fundoURL);fundoURL=URL.createObjectURL(blobDe(m.parts));fundoSujo=false;return fundoURL}
+function tocaFundo(){const u=fundoLoop();if(!u){status('Ligue pelo menos um som de fundo.');return false}const a=$('fundoAudio');if(a.src!==u)a.src=u;a.play().catch(()=>status('Toque de novo para liberar o som.'));return true}
+$('ouvirFundo').onclick=()=>{if(tocaFundo())status('Tocando o fundo. Ele se repete sem parar.')};
+$('pararFundo').onclick=()=>{$('fundoAudio').pause();status('')};
+
+/* ---------- 4. ao vivo (vozes do iPhone) ---------- */
+let vivo=null,timerId=null;
+function fala(txt,onend){const u=new SpeechSynthesisUtterance(txt),v=vozIph();if(v){u.voice=v;u.lang=v.lang}else u.lang='pt-BR';u.rate=Math.min(2.5,+$('vel').value);u.onend=onend;u.onerror=onend;synth.speak(u);return u}
+$('ouvirVoz').onclick=async()=>{const amostra='Boa noite. Respire fundo, relaxe os ombros, e deixe a história te levar devagar.';
+ if(motor==='iphone'){if(!synth){status('Este navegador não fala.');return}synth.cancel();fala(amostra,()=>{});return}
+ status('Gerando amostra…',0);try{const v=+$('vel').value,api=Math.max(.7,Math.min(1.2,v));let x=await elTTS(amostra,api);x=stretch(x,v/api);const m=mixWav({narr:x,lead:0,tail:0,layers:[],volN:1,volF:0});
+  const a=$('player');a.src=URL.createObjectURL(blobDe(m.parts));a.classList.remove('hidden');status('Amostra pronta: toque no play.',1)}catch(e){status(e.message)}};
+function pararVivo(){if(vivo){vivo.stop=true;vivo=null}if(synth)synth.cancel();$('fundoAudio').pause();clearTimeout(timerId);status('Parado.')}
+$('pararVivo').onclick=pararVivo;
+$('tocarVivo').onclick=()=>{pararVivo();const ps=paragrafos($('texto').value);if(!ps.length&&!camadas().length){status('Escreva uma história ou ligue um som.');return}
+ if(camadas().length)tocaFundo();const me=vivo={stop:false};let i=0;
+ const prox=()=>{if(me.stop)return;if(i>=ps.length){status('Fim da história. O fundo continua.');return}status(`Narrando parágrafo ${i+1} de ${ps.length}`,i/ps.length);const p=ps[i++];fala(p,()=>{if(!me.stop)setTimeout(prox,+$('pausa').value*1000)})};
+ const lead=+$('lead').value*1000;if(ps.length&&synth){if(lead>0){synth.speak(new SpeechSynthesisUtterance(' '));setTimeout(prox,lead)}else prox()}
+ const tm=+$('timer').value;if(tm)timerId=setTimeout(pararVivo,tm*60000)};
+
+/* ---------- 4. gerar arquivo (ElevenLabs) ---------- */
+const narrCache={};let ultimo=null;
+function custo(){if(motor!=='eleven'){$('custo').textContent='';return}const c=$('texto').value.length;$('custo').textContent=c?`≈ ${c.toLocaleString('pt-BR')} créditos ElevenLabs (grátis se a narração já foi gerada)`:''}
+$('montar').onclick=async()=>{const b=$('montar');const ps=paragrafos($('texto').value);if(!ps.length){status('Escreva ou gere uma história primeiro.');return}
+ b.disabled=true;$('baixar').classList.add('hidden');try{
+  const v=+$('vel').value,api=Math.max(.7,Math.min(1.2,v)),pausa=Math.floor(+$('pausa').value*SR),pedacos=[];
+  for(let i=0;i<ps.length;i++){const key=[elVoz(),$('elModelo').value,$('elEstab').value,api,ps[i]].join('|');
+   if(!narrCache[key]){status(`Gerando a voz: parágrafo ${i+1} de ${ps.length}`,i/ps.length*.7);narrCache[key]=await elTTS(ps[i],api)}
+   status(`Ajustando a velocidade: parágrafo ${i+1} de ${ps.length}`,(i+1)/ps.length*.7);await tick();pedacos.push(stretch(narrCache[key],v/api))}
+  let tot=0;pedacos.forEach(p=>tot+=p.length+pausa);const narr=new Float32Array(tot);let o=0;pedacos.forEach(p=>{narr.set(p,o);o+=p.length+pausa});
+  status('Misturando com o fundo…',.8);await tick();
+  const m=mixWav({narr,lead:+$('lead').value,tail:+$('cauda').value*60,layers:camadas(),volN:+$('volN').value,volF:+$('volF').value,fadeOut:120});
+  const nome=(($('titulo').value.trim()||'historia').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^\w]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'historia');
+  ultimo={nome,parts:m.parts};const a=$('player');if(a.src)URL.revokeObjectURL(a.src);a.src=URL.createObjectURL(blobDe(m.parts));a.classList.remove('hidden');$('baixar').classList.remove('hidden');
+  const mb=m.parts.reduce((s,p)=>s+p.byteLength,0)/1048576;status(`Pronto: ${Math.round(m.seconds/60)} min, ${mb.toFixed(0)} MB. Toque no play ou baixe.`,1)}
+ catch(e){status(noClaude?('Não deu certo: '+e.message):'Dentro do Claude a ElevenLabs fica bloqueada. Use a versão hospedada.',0)}finally{b.disabled=false}};
+$('baixar').onclick=async()=>{if(!ultimo)return;const d=await cap('downloads');
+ if(d){status('Preparando o arquivo…');await tick();try{await d.save({filename:ultimo.nome+'.zip',data:new Blob(zipParts(ultimo.nome+'.wav',ultimo.parts))});status('Arquivo salvo (um .zip com o .wav dentro; no iPhone, toque nele no app Arquivos para abrir).')}catch(e){status(e.code==='declined'?'Download cancelado.':'Não foi possível baixar aqui.')}return}
+ const a=document.createElement('a');a.href=$('player').src;a.download=ultimo.nome+'.wav';document.body.appendChild(a);a.click();a.remove();status('Baixando… no iPhone o arquivo vai para o app Arquivos › Downloads.')};
+
+/* início */
+const r=store.get('rasc',null);if(r){$('titulo').value=r.t;$('texto').value=r.x}else{$('titulo').value=EXEMPLOS[1].t;$('texto').value=EXEMPLOS[1].x}
+setMotor(motor);conta();lib();
+}
+</script>
+</body>
+</html>
